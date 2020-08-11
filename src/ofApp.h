@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxNDI.h"
 #include "ofxShader.h"
-#include "ofxDatGui.h"
+//#include "ofxDatGui.h"
 #include "json.hpp"
 
 using json = nlohmann::json;
@@ -27,10 +27,8 @@ class ofApp : public ofBaseApp{
 		ofxShader shaderA;
 		ofxShader shaderB;
 
-		ofBoxPrimitive box;
-
-		ofxDatGui * pGui;
-		ofxDatGuiButton * pButton;
+		//ofxDatGui * pGui;
+		//ofxDatGuiButton * pButton;
 
 		void onShaderLoad(bool& e);
 };

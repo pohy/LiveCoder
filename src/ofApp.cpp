@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofSetLogLevel(OF_LOG_VERBOSE);
+	ofSetVerticalSync(false);
 
 	config = json::parse(ofBufferFromFile("config.json", false).getText());
 
@@ -15,11 +16,10 @@ void ofApp::setup() {
 
 	ofSetWindowTitle("Sender: " + senderName);
 
-	pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
-	pButton = pGui->addButton("Clicker");
+	//pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+	//pButton = pGui->addButton("Clicker");
 
 	ndiFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
-	ndiSender.SetReadback();
 	ndiSender.SetAsync();
 	ndiSender.CreateSender(senderName.c_str(), ofGetWidth(), ofGetHeight());
 
@@ -29,41 +29,34 @@ void ofApp::setup() {
 	pBackShader = &shaderB;
 	pFrontShader->disableWatchFiles();
 	ofAddListener(pBackShader->onLoad, this, &ofApp::onShaderLoad);
-
-	box.set(400);
-	box.setPosition(ofGetWidth() / 2, ofGetHeight() / 2, 0);
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	pGui->update();
-	box.rotateDeg(.3, { 0, 1, 0 });
-	box.rotateDeg(.2, { 1, 0, 1 });
+	//pGui->update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
 	ofEnableDepthTest();
-	ofBackground(5);
-	ofSetColor(255);
 
 	ndiFbo.begin();
-	ofClear(0, 0, 0, 0);
-	pFrontShader->begin();
-	float time = pButton->getMouseDown() ? 0 : ofGetElapsedTimef();
-	pFrontShader->setUniform1f("iTime", time);
-	pFrontShader->setUniform2f("iResolution", ofGetWidth(), ofGetHeight());
-	ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
-	pFrontShader->end();
-
+		ofClear(0);
+		pFrontShader->begin();
+			float time = ofGetElapsedTimef();// ->getMouseDown() ? 0 : ofGetElapsedTimef();
+			pFrontShader->setUniform1f("iTime", time);
+			pFrontShader->setUniform2f("iResolution", ofGetWidth(), ofGetHeight());
+			ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+		pFrontShader->end();
 	ndiFbo.end();
 
 	ndiFbo.draw(0, 0);
-
 	ndiSender.SendImage(ndiFbo);
 
 	ofDisableDepthTest();
-	pGui->draw();
+	//pGui->draw();
+	auto fpsText = to_string(ofGetFrameRate()) + "/" + to_string(ofGetTargetFrameRate());
+	ofDrawBitmapString(fpsText, { 10, 10 });
 }
 
 void ofApp::exit() {
