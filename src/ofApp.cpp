@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+	ofSetLogLevel(OF_LOG_VERBOSE);
+
 	config = json::parse(ofBufferFromFile("config.json", false).getText());
 
 	ofEnableDepthTest();
@@ -21,7 +23,12 @@ void ofApp::setup() {
 	ndiSender.SetAsync();
 	ndiSender.CreateSender(senderName.c_str(), ofGetWidth(), ofGetHeight());
 
-	shader.load("shader");
+	shaderA.load("shader");
+	shaderB.load("shader");
+	pFrontShader = &shaderA;
+	pBackShader = &shaderB;
+	pFrontShader->disableWatchFiles();
+	ofAddListener(pBackShader->onLoad, this, &ofApp::onShaderLoad);
 
 	box.set(400);
 	box.setPosition(ofGetWidth() / 2, ofGetHeight() / 2, 0);
@@ -42,12 +49,12 @@ void ofApp::draw() {
 
 	ndiFbo.begin();
 	ofClear(0, 0, 0, 0);
-	shader.begin();
+	pFrontShader->begin();
 	float time = pButton->getMouseDown() ? 0 : ofGetElapsedTimef();
-	shader.setUniform1f("iTime", time);
-	shader.setUniform2f("iResolution", ofGetWidth(), ofGetHeight());
+	pFrontShader->setUniform1f("iTime", time);
+	pFrontShader->setUniform2f("iResolution", ofGetWidth(), ofGetHeight());
 	ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
-	shader.end();
+	pFrontShader->end();
 
 	ndiFbo.end();
 
@@ -63,57 +70,17 @@ void ofApp::exit() {
 	ndiSender.ReleaseSender();
 }
 
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
+void ofApp::onShaderLoad(bool& e) {
+	if (!e) {
+		return;
+	}
 
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) {
-
+	//Swap front and back shaders
+	auto pBackShaderOld = pBackShader;
+	pBackShader = pFrontShader;
+	pFrontShader = pBackShaderOld;
+	pBackShader->enableWatchFiles();
+	pFrontShader->disableWatchFiles();
+	ofRemoveListener(pBackShaderOld->onLoad, this, &ofApp::onShaderLoad);
+	ofAddListener(pBackShader->onLoad, this, &ofApp::onShaderLoad);
 }
