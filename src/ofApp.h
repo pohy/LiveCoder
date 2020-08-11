@@ -3,14 +3,15 @@
 #include "ofMain.h"
 #include "ofxNDI.h"
 #include "ofxShader.h"
-//#include "ofxDatGui.h"
 #include "json.hpp"
+//#include "ofxDatGui.h"
 
 using json = nlohmann::json;
 
 class ofApp : public ofBaseApp{
 
 	public:
+		ofApp(json config);
 		void setup();
 		void update();
 		void draw();

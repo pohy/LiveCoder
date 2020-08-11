@@ -1,11 +1,13 @@
 #include "ofApp.h"
 
+ofApp::ofApp(json config) {
+	this->config = config;
+}
+
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	ofSetVerticalSync(false);
-
-	config = json::parse(ofBufferFromFile("config.json", false).getText());
 
 	ofEnableDepthTest();
 	ofDisableArbTex();
