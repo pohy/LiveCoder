@@ -4,7 +4,7 @@
 #include "ofxNDI.h"
 #include "ofxShader.h"
 #include "json.hpp"
-//#include "ofxDatGui.h"
+#include "ofxDatGui.h"
 
 using json = nlohmann::json;
 
@@ -31,8 +31,12 @@ class ofApp : public ofBaseApp{
 		ofxShader shaderA;
 		ofxShader shaderB;
 
-		//ofxDatGui * pGui;
+		ofxDatGui* pGui;
+		ofxDatGuiDropdown* pDropdownShader;
+
+		std::vector<string> availableShaders;
 		//ofxDatGuiButton * pButton;
 
 		void onShaderLoad(bool& e);
+		void loadAvailableShaders();
 };

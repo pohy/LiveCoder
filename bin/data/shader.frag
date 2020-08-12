@@ -22,7 +22,7 @@ void main() {
     vec2 p = uv - vec2(sin(t * 2.) * r, cos(t) * r);
     float d = length(p) - (.1 + sin(t) * .2);
     d = smoothstep(.01, .0, d);
-    col += d * vec3(.8, .4, 1.);
+    col += d * vec3(.9, .2, 5.);
 
     outputColor = vec4(col, 1.);
 }
