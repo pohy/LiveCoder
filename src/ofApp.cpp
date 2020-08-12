@@ -22,6 +22,8 @@ void ofApp::setup() {
 	ofSetWindowTitle("Sender: " + senderName);
 
 	loadAvailableShaders();
+	auto foundShaderIt = std::find(availableShaders.begin(), availableShaders.end(), config.value("defaultShader", ""));
+	currentShaderIndex = std::distance(availableShaders.begin(), foundShaderIt);
 
 	pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
 	pLabelFps = pGui->addLabel("fps");
