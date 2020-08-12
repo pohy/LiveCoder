@@ -1,8 +1,10 @@
 #include "ofApp.h"
+#include <sstream>
 
 ofApp::ofApp(json config) {
+	auto renderConfig = config.at("render");
 	this->config = config;
-	this->size = { config.value("width", 1280), config.value("height", 720) };
+	this->renderSize = { renderConfig.value("width", 1280), renderConfig.value("height", 720) };
 }
 
 //--------------------------------------------------------------
@@ -29,12 +31,14 @@ void ofApp::setup() {
 	});
 	//pButton = pGui->addButton("Clicker");
 
-	ndiFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+	ndiFbo.allocate(renderSize.x, renderSize.y, GL_RGBA);
 	ndiSender.SetAsync();
-	ndiSender.CreateSender(senderName.c_str(), size.x, size.y);
+	ndiSender.CreateSender(senderName.c_str(), renderSize.x, renderSize.y);
 
-	shaderA.load(availableShaders[0]);
-	shaderB.load(availableShaders[0]);
+	if (availableShaders.size() > 0) {
+		shaderA.load(availableShaders[0]);
+		shaderB.load(availableShaders[0]);
+	}
 	pFrontShader = &shaderA;
 	pBackShader = &shaderB;
 	pFrontShader->disableWatchFiles();
@@ -50,13 +54,13 @@ void ofApp::draw() {
 	ofEnableDepthTest();
 
 	ndiFbo.begin();
-		ofClear(0);
-		pFrontShader->begin();
-			float time = ofGetElapsedTimef();
-			pFrontShader->setUniform1f("iTime", time);
-			pFrontShader->setUniform2f("iResolution", size.x, size.y);
-			ofDrawRectangle(0, 0, size.x, size.y);
-		pFrontShader->end();
+	ofClear(0);
+	pFrontShader->begin();
+	float time = ofGetElapsedTimef();
+	pFrontShader->setUniform1f("iTime", time);
+	pFrontShader->setUniform2f("iResolution", renderSize.x, renderSize.y);
+	ofDrawRectangle(0, 0, renderSize.x, renderSize.y);
+	pFrontShader->end();
 	ndiFbo.end();
 
 	ndiFbo.draw(0, 0, ofGetWidth(), ofGetHeight());

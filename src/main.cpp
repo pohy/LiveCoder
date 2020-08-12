@@ -5,12 +5,13 @@
 using json = nlohmann::json;
 
 //========================================================================
-int main( ){
+int main() {
 	auto config = json::parse(ofBufferFromFile("config.json", false).getText());
+	auto windowConfig = config.at("window");
 
 	ofGLFWWindowSettings settings;
 	settings.setGLVersion(3, 3);
-	settings.setSize(config.value("width", 1280), config.value("height", 720));
+	settings.setSize(windowConfig.value("width", 1280), windowConfig.value("height", 720));
 
 	ofCreateWindow(settings);			// <-------- setup the GL context
 
