@@ -2,6 +2,7 @@
 
 ofApp::ofApp(json config) {
 	this->config = config;
+	this->size = { config.value("width", 1280), config.value("height", 720) };
 }
 
 //--------------------------------------------------------------
@@ -23,7 +24,7 @@ void ofApp::setup() {
 
 	ndiFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
 	ndiSender.SetAsync();
-	ndiSender.CreateSender(senderName.c_str(), ofGetWidth(), ofGetHeight());
+	ndiSender.CreateSender(senderName.c_str(), size.x, size.y);
 
 	shaderA.load("shader");
 	shaderB.load("shader");
@@ -47,12 +48,12 @@ void ofApp::draw() {
 		pFrontShader->begin();
 			float time = ofGetElapsedTimef();// ->getMouseDown() ? 0 : ofGetElapsedTimef();
 			pFrontShader->setUniform1f("iTime", time);
-			pFrontShader->setUniform2f("iResolution", ofGetWidth(), ofGetHeight());
-			ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+			pFrontShader->setUniform2f("iResolution", size.x, size.y);
+			ofDrawRectangle(0, 0, size.x, size.y);
 		pFrontShader->end();
 	ndiFbo.end();
 
-	ndiFbo.draw(0, 0);
+	ndiFbo.draw(0, 0, ofGetWidth(), ofGetHeight());
 	ndiSender.SendImage(ndiFbo);
 
 	ofDisableDepthTest();
@@ -63,6 +64,11 @@ void ofApp::draw() {
 
 void ofApp::exit() {
 	ndiSender.ReleaseSender();
+}
+
+void ofApp::windowResized(int w, int h) {
+	float aspect = 16. / 9.;
+	ofSetWindowShape(w, w / aspect);
 }
 
 void ofApp::onShaderLoad(bool& e) {

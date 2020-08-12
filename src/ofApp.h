@@ -16,6 +16,9 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		void exit();
+		void windowResized(int w, int h);
+
+		glm::vec2 size;
 		
 	private:
 		json config;
