@@ -17,7 +17,7 @@ void ofApp::setup() {
 	ofSetVerticalSync(true);
 	ofSetFrameRate(config.value("fps", 60));
 
-	auto senderName = config.at("/ndi"_json_pointer).value("senderName", "GLSL Live coder");
+	senderName = config.at("/ndi"_json_pointer).value("senderName", "GLSL Live coder");
 
 	ofSetWindowTitle("Sender: " + senderName);
 
@@ -25,25 +25,9 @@ void ofApp::setup() {
 	auto foundShaderIt = std::find(availableShaders.begin(), availableShaders.end(), config.value("defaultShader", ""));
 	currentShaderIndex = std::distance(availableShaders.begin(), foundShaderIt);
 
-	pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
-	pLabelFps = pGui->addLabel("fps");
-	pDropdownShader = pGui->addDropdown("shader", availableShaders);
-	pDropdownShader->select(currentShaderIndex);
-	pDropdownShader->onDropdownEvent([=](ofxDatGuiDropdownEvent e) {
-		loadShader(e.child);
-		});
-
-	ndiFbo.allocate(renderSize.x, renderSize.y, GL_RGBA);
-	ndiSender.SetAsync();
-	ndiSender.CreateSender(senderName.c_str(), renderSize.x, renderSize.y);
-
-	if (availableShaders.size() > 0) {
-		loadShader(currentShaderIndex);
-	}
-	pFrontShader = &shaderA;
-	pBackShader = &shaderB;
-	pFrontShader->disableWatchFiles();
-	ofAddListener(pBackShader->onLoad, this, &ofApp::onShaderLoad);
+	setupGui();
+	setupNdi();
+	setupShader();
 }
 
 //--------------------------------------------------------------
@@ -144,4 +128,30 @@ void ofApp::loadAvailableShaders()
 		auto shaderName = fileName.substr(0, fragIndex);
 		availableShaders.push_back(shaderName);
 	}
+}
+
+void ofApp::setupGui() {
+	pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+	pLabelFps = pGui->addLabel("fps");
+	pDropdownShader = pGui->addDropdown("shader", availableShaders);
+	pDropdownShader->select(currentShaderIndex);
+	pDropdownShader->onDropdownEvent([=](ofxDatGuiDropdownEvent e) {
+		loadShader(e.child);
+		});
+}
+
+void ofApp::setupNdi() {
+	ndiFbo.allocate(renderSize.x, renderSize.y, GL_RGBA);
+	ndiSender.SetAsync();
+	ndiSender.CreateSender(senderName.c_str(), renderSize.x, renderSize.y);
+}
+
+void ofApp::setupShader() {
+	if (availableShaders.size() > 0) {
+		loadShader(currentShaderIndex);
+	}
+	pFrontShader = &shaderA;
+	pBackShader = &shaderB;
+	pFrontShader->disableWatchFiles();
+	ofAddListener(pBackShader->onLoad, this, &ofApp::onShaderLoad);
 }

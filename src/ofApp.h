@@ -42,4 +42,7 @@ class ofApp : public ofBaseApp{
 
 		void onShaderLoad(bool& e);
 		void loadAvailableShaders();
+		void setupGui();
+		void setupNdi();
+		void setupShader();
 };
