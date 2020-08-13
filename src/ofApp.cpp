@@ -22,8 +22,6 @@ void ofApp::setup() {
 
 	senderName = config.at("/ndi"_json_pointer).value("senderName", "GLSL Live coder");
 
-	ofSetWindowTitle("Sender: " + senderName);
-
 	loadAvailableShaders();
 	auto foundShaderIt = std::find(availableShaders.begin(), availableShaders.end(), config.value("defaultShader", ""));
 	currentShaderIndex = std::distance(availableShaders.begin(), foundShaderIt);
@@ -73,6 +71,8 @@ void ofApp::loadShader(int index) {
 	currentShaderIndex = index;
 	shaderA.load(availableShaders[currentShaderIndex]);
 	shaderB.load(availableShaders[currentShaderIndex]);
+	pDropdownShader->select(currentShaderIndex);
+	updateWindowTitle();
 }
 
 void ofApp::windowResized(int w, int h) {
@@ -101,7 +101,6 @@ void ofApp::keyPressed(ofKeyEventArgs& key)
 		currentShaderIndex = maxIndex;
 	}
 	loadShader(currentShaderIndex);
-	pDropdownShader->select(currentShaderIndex);
 }
 
 static GLSLType stringToType(string type) {
@@ -218,4 +217,10 @@ void ofApp::setupShader() {
 	pBackShader = &shaderB;
 	pFrontShader->disableWatchFiles();
 	ofAddListener(pBackShader->onLoad, this, &ofApp::onShaderLoad);
+}
+
+void ofApp::updateWindowTitle()
+{
+	auto shaderName = availableShaders.size() > 0 ? availableShaders[currentShaderIndex] : "";
+	ofSetWindowTitle("Sender: " + senderName + " / Shader: " + shaderName);
 }

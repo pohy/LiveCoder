@@ -49,4 +49,6 @@ class ofApp : public ofBaseApp{
 		void setupGui();
 		void setupNdi();
 		void setupShader();
+
+		void updateWindowTitle();
 };
