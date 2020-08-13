@@ -8,6 +8,8 @@
 
 using json = nlohmann::json;
 
+typedef int GLSLType;
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -37,6 +39,7 @@ class ofApp : public ofBaseApp{
 		ofxDatGui* pGui;
 		ofxDatGuiDropdown* pDropdownShader;
 		ofxDatGuiLabel* pLabelFps;
+		ofxDatGuiFolder* pFolderUniforms;
 
 		std::vector<string> availableShaders;
 		int currentShaderIndex;
