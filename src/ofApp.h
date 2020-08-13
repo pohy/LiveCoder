@@ -51,4 +51,5 @@ class ofApp : public ofBaseApp{
 		void setupShader();
 
 		void updateWindowTitle();
+		void browseShaders(ofKeyEventArgs& key);
 };
