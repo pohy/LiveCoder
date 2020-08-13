@@ -26,6 +26,7 @@ class ofApp : public ofBaseApp{
 		json config;
 
 		ofFbo ndiFbo;
+		string senderName;
 		ofxNDIsender ndiSender;
 
 		ofxShader* pFrontShader;
