@@ -137,10 +137,34 @@ void ofApp::onShaderLoad(bool& e) {
 	ofAddListener(pBackShader->onLoad, this, &ofApp::onShaderLoad);
 
 
+	parseUniforms();
 	pFolderUniforms->children.clear();
+	for (auto uniform : uniforms) {
+		if (uniform.first == "iTime" || uniform.first == "iResolution") {
+			continue;
+		}
+		switch (uniform.second)
+		{
+		case GL_FLOAT:
+			pFolderUniforms->addSlider(uniform.first, 0, 1);
+			break;
+		case GL_FLOAT_VEC2:
+			pFolderUniforms->addSlider(uniform.first + "_x", 0, 1);
+			pFolderUniforms->addSlider(uniform.first + "_y", 0, 1);
+			break;
+		default:
+			break;
+		}
+	}
+	if (pFolderUniforms->getIsExpanded()) {
+		pFolderUniforms->collapse();
+		pFolderUniforms->expand();
+	}
+}
 
+void ofApp::parseUniforms() {
+	uniforms.clear();
 	auto shaderSource = pFrontShader->getShaderSource(GL_FRAGMENT_SHADER);
-	//ofLogNotice("LiveCoder") << "Shader source: \n" << shaderSource;
 
 	std::stringstream ss(shaderSource);
 	string line;
@@ -148,10 +172,7 @@ void ofApp::onShaderLoad(bool& e) {
 	while (std::getline(ss, line, '\n')) {
 		lines.push_back(line);
 	}
-
-	std::vector<std::pair<string, GLSLType>> matches;
 	for (auto line : lines) {
-		//ofLogNotice("LiveCoder") << "Line " << ": " << line << std::endl;
 		std::smatch match;
 		std::regex regex("uniform (\\w+) (\\w+);");
 
@@ -164,29 +185,7 @@ void ofApp::onShaderLoad(bool& e) {
 			ofLogError("LiveCoder") << "Unknown uniform type: " << match[1];
 			continue;
 		}
-		matches.push_back(std::make_pair(match[2], uniformType));
-	}
-	for (auto match : matches) {
-		if (match.first == "iTime" || match.first == "iResolution") {
-			continue;
-		}
-		ofLogNotice("LiveCoder") << "Uniform match: " << match.first << endl;
-		switch (match.second)
-		{
-		case GL_FLOAT:
-			pFolderUniforms->addSlider(match.first, 0, 1);
-			break;
-		case GL_FLOAT_VEC2:
-			pFolderUniforms->addSlider(match.first + "_x", 0, 1);
-			pFolderUniforms->addSlider(match.first + "_y", 0, 1);
-			break;
-		default:
-			break;
-		}
-	}
-	if (pFolderUniforms->getIsExpanded()) {
-		pFolderUniforms->collapse();
-		pFolderUniforms->expand();
+		uniforms.push_back(std::make_pair(match[2], uniformType));
 	}
 }
 

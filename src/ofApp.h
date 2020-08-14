@@ -9,6 +9,7 @@
 using json = nlohmann::json;
 
 typedef int GLSLType;
+typedef std::pair<string, GLSLType> Uniform;
 
 class ofApp : public ofBaseApp{
 
@@ -43,12 +44,14 @@ class ofApp : public ofBaseApp{
 
 		std::vector<string> availableShaders;
 		int currentShaderIndex;
+		std::vector<Uniform> uniforms;
 
 		void onShaderLoad(bool& e);
 		void loadAvailableShaders();
 		void setupGui();
 		void setupNdi();
 		void setupShader();
+		void parseUniforms();
 
 		void updateWindowTitle();
 		void browseShaders(ofKeyEventArgs& key);
