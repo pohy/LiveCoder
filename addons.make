@@ -1,3 +1,4 @@
 ofxDatGui
+ofxMidi
 ofxNDI
 ofxShader

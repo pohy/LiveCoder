@@ -29,6 +29,42 @@ void ofApp::setup() {
 	setupGui();
 	setupNdi();
 	setupShader();
+
+	//ofLogNotice("LiveCoder") << "MIDI Inputs: " << midiIn.get();
+	ofxMidiIn midiIn;
+	midiIn.listInPorts();
+	auto requestedInputs = config.at("midi").value("inputs", std::vector<string>());
+	for (auto input : midiIn.getInPortList()) {
+		auto foundInput = std::find(requestedInputs.begin(), requestedInputs.end(), input);
+		if (foundInput == requestedInputs.end()) {
+			continue;
+		}
+		ofxMidiIn selectedInput;
+		ofLogNotice("LiveCoder") << "Selecting input: " << *foundInput;
+		selectedInput.openPort(*foundInput);
+		selectedInput.addListener(this);
+		midiIns.push_back(selectedInput);
+		//for (auto requestedInput : requestedInputs) {
+		//	if (input != requestedInput) {
+		//		continue;
+		//	}
+
+		//}
+	}
+	auto ccBindings = config.at("/midi/bindings/cc"_json_pointer);
+	for (auto ccBinding : ccBindings.items()) {
+		auto uniformName = ccBinding.key();
+		uniformValues[uniformName] = 0;
+		shaderA.addUniformFunction(uniformName, UniformFunction([=](ofShader* _shader) {
+			_shader->setUniform1f(uniformName, uniformValues[uniformName]);
+			}));
+	}
+
+	// Array of inputs
+	// Listen for each inputs messages
+	// MIDI note vs CC
+	// Bind CCs to uniforms in config
+	// Bind MIDI notes to shader index
 }
 
 //--------------------------------------------------------------
@@ -83,7 +119,10 @@ void ofApp::windowResized(int w, int h) {
 void ofApp::keyPressed(ofKeyEventArgs& key)
 {
 	browseShaders(key);
+	//selectShaderByNumber(key);
 }
+
+void ofApp::browseShaders(ofKeyEventArgs& key)
 {
 	if (key.key != OF_KEY_LEFT && key.key != OF_KEY_RIGHT) {
 		return;
@@ -106,6 +145,15 @@ void ofApp::keyPressed(ofKeyEventArgs& key)
 	loadShader(currentShaderIndex);
 }
 
+void ofApp::selectShaderByNumber(ofKeyEventArgs& key) {
+	if (key.key < 48 || key.key > 57) {
+		return;
+	}
+	int index = 57 - key.key;
+	loadShader(index);
+	//ofLogNotice("LiveCoder") << "key: " << key.key;
+}
+
 static GLSLType stringToType(string type) {
 	if (type == "float") {
 		return GL_FLOAT;
@@ -119,6 +167,24 @@ static GLSLType stringToType(string type) {
 	else if (type == "vec4") {
 		return GL_FLOAT_VEC4;
 	}
+}
+
+void ofApp::newMidiMessage(ofxMidiMessage& msg) {
+
+	auto midiConfig = config.at("midi");
+	if (midiConfig.value("debug", false)) {
+		ofLogNotice("LiveCoder") << "onMidiMessage(): Input: " << msg.portName << ", pitch: " << msg.pitch << ", velocity: " << msg.velocity << ", control: " << msg.control << ", value: " << msg.value;
+	}
+	auto ccBindings = config.at("/midi/bindings/cc"_json_pointer);
+	for (auto ccBinding : ccBindings.items()) {
+		if (msg.control != ccBinding.value()) {
+			continue;
+		}
+		uniformValues[ccBinding.key()] = msg.value / 127.;
+		//ofLogNotice("LiveCoder") << "onMidiMessage binding: " << ccBinding.key() << " to: " << ccBinding.value();
+	}
+	// Store CC value into a map
+	// Uniform function takes value from cc
 }
 
 void ofApp::onShaderLoad(bool& e) {

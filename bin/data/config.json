@@ -11,5 +11,15 @@
   },
   "ndi": {
     "senderName":  "Live coder"
+  },
+  "midi": {
+	  "debug": true,
+	  "inputs": ["MIDIIN2 (LPX MIDI) 4", "MIDI Mix 2"],
+	  "bindings": {
+		  "cc": {
+			  "iMidi0": 19,
+			  "iMidi1": 23
+		  }
+	  }
   }
 }

@@ -5,13 +5,14 @@
 #include "ofxShader.h"
 #include "json.hpp"
 #include "ofxDatGui.h"
+#include "ofxMidi.h"
 
 using json = nlohmann::json;
 
 typedef int GLSLType;
 typedef std::pair<string, GLSLType> Uniform;
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp, public ofxMidiListener {
 
 	public:
 		ofApp(json config);
@@ -42,6 +43,10 @@ class ofApp : public ofBaseApp{
 		ofxDatGuiLabel* pLabelFps;
 		ofxDatGuiFolder* pFolderUniforms;
 
+		std::vector<ofxMidiIn> midiIns;
+		void newMidiMessage(ofxMidiMessage& msg);
+		std::map<string, float> uniformValues;
+
 		std::vector<string> availableShaders;
 		int currentShaderIndex;
 		std::vector<Uniform> uniforms;
@@ -55,4 +60,5 @@ class ofApp : public ofBaseApp{
 
 		void updateWindowTitle();
 		void browseShaders(ofKeyEventArgs& key);
+		void selectShaderByNumber(ofKeyEventArgs& key);
 };
