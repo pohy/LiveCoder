@@ -14,3 +14,10 @@
 	- Save configuration into JSON
 - Import Shadertoy shaders
 - Audio input sampling -> FFT texture
+
+## Used libraries
+- https://github.com/patriciogonzalezvivo/ofxShader
+- https://github.com/leadedge/ofxNDI
+- https://github.com/braitsch/ofxDatGui
+- https://github.com/danomatika/ofxMidi
+- https://github.com/nlohmann/json
