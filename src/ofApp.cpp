@@ -4,6 +4,10 @@
 #include <iostream>
 #include <regex>
 
+static float lerp(float current, float target, float t) {
+	return (1 - t) * current + t * target;
+}
+
 ofApp::ofApp(json config) {
 	auto renderConfig = config.at("render");
 	this->config = config;
@@ -29,46 +33,15 @@ void ofApp::setup() {
 	setupGui();
 	setupNdi();
 	setupShader();
-
-	//ofLogNotice("LiveCoder") << "MIDI Inputs: " << midiIn.get();
-	ofxMidiIn midiIn;
-	midiIn.listInPorts();
-	auto requestedInputs = config.at("midi").value("inputs", std::vector<string>());
-	for (auto input : midiIn.getInPortList()) {
-		auto foundInput = std::find(requestedInputs.begin(), requestedInputs.end(), input);
-		if (foundInput == requestedInputs.end()) {
-			continue;
-		}
-		ofxMidiIn selectedInput;
-		ofLogNotice("LiveCoder") << "Selecting input: " << *foundInput;
-		selectedInput.openPort(*foundInput);
-		selectedInput.addListener(this);
-		midiIns.push_back(selectedInput);
-		//for (auto requestedInput : requestedInputs) {
-		//	if (input != requestedInput) {
-		//		continue;
-		//	}
-
-		//}
-	}
-	auto ccBindings = config.at("/midi/bindings/cc"_json_pointer);
-	for (auto ccBinding : ccBindings.items()) {
-		auto uniformName = ccBinding.key();
-		uniformValues[uniformName] = 0;
-		shaderA.addUniformFunction(uniformName, UniformFunction([=](ofShader* _shader) {
-			_shader->setUniform1f(uniformName, uniformValues[uniformName]);
-			}));
-	}
-
-	// Array of inputs
-	// Listen for each inputs messages
-	// MIDI note vs CC
-	// Bind CCs to uniforms in config
-	// Bind MIDI notes to shader index
+	setupMidi();
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
+	for (auto entry : uniformValues) {
+		auto value = uniformValues[entry.first];
+		uniformValues[entry.first].current = lerp(value.current, value.target, 2 * ofGetLastFrameTime());
+	}
 }
 
 //--------------------------------------------------------------
@@ -180,7 +153,7 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 		if (msg.control != ccBinding.value()) {
 			continue;
 		}
-		uniformValues[ccBinding.key()] = msg.value / 127.;
+		uniformValues[ccBinding.key()].target = msg.value / 127.;
 		//ofLogNotice("LiveCoder") << "onMidiMessage binding: " << ccBinding.key() << " to: " << ccBinding.value();
 	}
 	// Store CC value into a map
@@ -295,6 +268,31 @@ void ofApp::setupShader() {
 	pBackShader = &shaderB;
 	pFrontShader->disableWatchFiles();
 	ofAddListener(pBackShader->onLoad, this, &ofApp::onShaderLoad);
+}
+
+void ofApp::setupMidi() {
+	ofxMidiIn midiIn;
+	midiIn.listInPorts();
+	auto requestedInputs = config.at("midi").value("inputs", std::vector<string>());
+	for (auto input : midiIn.getInPortList()) {
+		auto foundInput = std::find(requestedInputs.begin(), requestedInputs.end(), input);
+		if (foundInput == requestedInputs.end()) {
+			continue;
+		}
+		ofxMidiIn selectedInput;
+		ofLogNotice("LiveCoder") << "Selecting input: " << *foundInput;
+		selectedInput.openPort(*foundInput);
+		selectedInput.addListener(this);
+		midiIns.push_back(selectedInput);
+	}
+	auto ccBindings = config.at("/midi/bindings/cc"_json_pointer);
+	for (auto ccBinding : ccBindings.items()) {
+		auto uniformName = ccBinding.key();
+		uniformValues[uniformName] = InterpolationValue({ 0,0 });
+		shaderA.addUniformFunction(uniformName, UniformFunction([=](ofShader* _shader) {
+			_shader->setUniform1f(uniformName, uniformValues[uniformName].current);
+			}));
+	}
 }
 
 void ofApp::updateWindowTitle()

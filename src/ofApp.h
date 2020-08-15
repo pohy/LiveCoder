@@ -12,6 +12,11 @@ using json = nlohmann::json;
 typedef int GLSLType;
 typedef std::pair<string, GLSLType> Uniform;
 
+typedef struct {
+	float current;
+	float target;
+} InterpolationValue;
+
 class ofApp : public ofBaseApp, public ofxMidiListener {
 
 	public:
@@ -45,7 +50,7 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 
 		std::vector<ofxMidiIn> midiIns;
 		void newMidiMessage(ofxMidiMessage& msg);
-		std::map<string, float> uniformValues;
+		std::map<string, InterpolationValue> uniformValues;
 
 		std::vector<string> availableShaders;
 		int currentShaderIndex;
@@ -56,6 +61,7 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		void setupGui();
 		void setupNdi();
 		void setupShader();
+		void setupMidi();
 		void parseUniforms();
 
 		void updateWindowTitle();
