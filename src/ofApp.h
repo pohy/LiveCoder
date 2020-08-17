@@ -6,11 +6,9 @@
 #include "json.hpp"
 #include "ofxDatGui.h"
 #include "ofxMidi.h"
+#include "Shader.h"
 
 using json = nlohmann::json;
-
-typedef int GLSLType;
-typedef std::pair<string, GLSLType> Uniform;
 
 typedef struct {
 	float current;
@@ -25,7 +23,6 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		void update();
 		void draw();
 		void exit();
-		void loadShader(int index);
 		void windowResized(int w, int h);
 		void keyPressed( ofKeyEventArgs & key );
 
@@ -37,11 +34,8 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		ofFbo ndiFbo;
 		string senderName;
 		ofxNDIsender ndiSender;
-
-		ofxShader* pFrontShader;
-		ofxShader* pBackShader;
-		ofxShader shaderA;
-		ofxShader shaderB;
+		
+		pohy::LiveShader shader;
 
 		ofxDatGui* pGui;
 		ofxDatGuiDropdown* pDropdownShader;
@@ -52,17 +46,11 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		void newMidiMessage(ofxMidiMessage& msg);
 		std::map<string, InterpolationValue> uniformValues;
 
-		std::vector<string> availableShaders;
-		int currentShaderIndex;
-		std::vector<Uniform> uniforms;
-
-		void onShaderLoad(bool& e);
-		void loadAvailableShaders();
+		// TODO: Update pFolderUniforms
+		void onShaderChange(pohy::ShaderInfo& info);
 		void setupGui();
 		void setupNdi();
-		void setupShader();
 		void setupMidi();
-		void parseUniforms();
 
 		void updateWindowTitle();
 		void browseShaders(ofKeyEventArgs& key);

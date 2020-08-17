@@ -4,6 +4,9 @@
 - Configurable shader directory
 
 ## Features
+- Detect undefined uniforms (iMidi0, etc.)
+- Import Shadertoy shaders
+- Fullscreen view in a second window
 - Load textures
 - Live config reloading
 - Bind MIDI/OSC
@@ -12,7 +15,6 @@
 		- Automatically parse uniforms and offer them for binding
 	- To shader position -> MIDI sequencing
 	- Save configuration into JSON
-- Import Shadertoy shaders
 - Audio input sampling -> FFT texture
 
 ## Used libraries
