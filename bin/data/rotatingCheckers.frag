@@ -1,6 +1,14 @@
 #define PI 3.14159
 
-uniform float iTime;
+#define iTime u_time
+// #define iResolution u_resolution
+
+uniform float u_time;
+
+uniform float iMidi0;
+uniform float iMidi1;
+
+//uniform float iTime;
 uniform vec2 iResolution;
 
 in vec2 texCoordVarying;
@@ -53,7 +61,7 @@ void main() {
     vec2 gUv = fract(sUv) - .5;
     vec2 id = floor(sUv);
 
-    mat2 rot = Rot(PI * .25 * t * .2 + length(id) * length(id));
+    mat2 rot = Rot(PI * .25 * t * .2 * iMidi1 + length(id) * length(id));
     vec2 p = vec2(gUv) * rot;
     float d = Rect(p, vec2(.7));
     col += d;// * vec3(.9, .2, 5.);
@@ -64,9 +72,10 @@ void main() {
     gUv = abs(gUv);
     gUv = fract(gUv) - .5;
     p = vec2(gUv);
-    p *= Rot(PI * -.25 * t - length(id) * length(id));
+    p *= Rot(PI * -.25 * t * iMidi1 - length(id) * length(id));
     d = Rect(p, vec2(.7));
     col -= d;// * vec3(normalize(length(id)));
+	col *= iMidi0;
 
     outputColor = vec4(col, 1.);
 }

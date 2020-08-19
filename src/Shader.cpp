@@ -1,9 +1,11 @@
 #include "Shader.h"
 #include <regex>
 #include <sstream>
+#include "ShaderConverter.h"
 
 namespace pohy {
-	static GLSLType stringToType(string type) {
+
+	static GLenum stringToType(string type) {
 		if (type == "float") {
 			return GL_FLOAT;
 		}
@@ -19,21 +21,22 @@ namespace pohy {
 		return NULL;
 	}
 
-	LiveShader::LiveShader() {
-		this->currentShaderIndex = 0;
-		this->pFrontShader = &shaderA;
-		this->pBackShader = &shaderB;
-	}
-
 	void LiveShader::load(string directory) {
 		loadAvailableShaders();
-		if (availableShaders.size() > 0) {
-			loadShader(currentShaderIndex);
-		}
+		//if (loadFirstShader && availableShaders.size() > 0) {
+		//	loadShader(currentShaderIndex);
+		//}
 		pFrontShader = &shaderA;
 		pBackShader = &shaderB;
 		pFrontShader->disableWatchFiles();
 		ofAddListener(pBackShader->onLoad, this, &LiveShader::onShaderLoad);
+		ofRemoveListener(pFrontShader->onLoad, this, &LiveShader::onShaderLoad);
+
+		auto shaderProcessor_ = [=](GLenum type, const string source) -> string {
+			return shaderProcessor(type, source);
+		};
+		pFrontShader->setShaderProcessor(shaderProcessor_);
+		pBackShader->setShaderProcessor(shaderProcessor_);
 	}
 
 	void LiveShader::draw(glm::ivec2 drawResolution) {
@@ -41,6 +44,7 @@ namespace pohy {
 		float time = ofGetElapsedTimef();
 		pFrontShader->setUniform1f("iTime", time);
 		pFrontShader->setUniform2f("iResolution", drawResolution.x, drawResolution.y);
+		pFrontShader->setUniform4f("iMouse", ofGetMouseX(), ofGetMouseY(), ofGetMousePressed(0), ofGetMousePressed(1));
 		ofDrawRectangle(0, 0, drawResolution.x, drawResolution.y);
 		pFrontShader->end();
 	}
@@ -76,6 +80,7 @@ namespace pohy {
 		}
 		shaderA.load(availableShaders[currentShaderIndex]);
 		shaderB.load(availableShaders[currentShaderIndex]);
+
 		auto shaderInfo = getCurrentShaderInfo();
 		ofNotifyEvent(onChange, shaderInfo, this);
 	}
@@ -107,6 +112,16 @@ namespace pohy {
 			availableShadersText << name << ", ";
 		}
 		ofLogNotice("Shader") << "Available shaders: " << availableShadersText.str();
+	}
+
+	string LiveShader::shaderProcessor(GLenum type, const string source) {
+		auto sourceModified = source;
+		if (type == GL_FRAGMENT_SHADER) {
+			sourceModified = pohy::shaderconverter::addUniforms(sourceModified);
+			sourceModified = pohy::shaderconverter::convertShaderToy(sourceModified);
+			return sourceModified;
+		}
+		return sourceModified;
 	}
 
 	void LiveShader::onShaderLoad(bool& e) {
@@ -167,7 +182,7 @@ namespace pohy {
 				continue;
 			}
 			auto type = match[1];
-			GLSLType uniformType = stringToType(match[1]);
+			GLenum uniformType = stringToType(match[1]);
 			if (uniformType == NULL) {
 				ofLogError("LiveCoder") << "Unknown uniform type: " << match[1];
 				continue;

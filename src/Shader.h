@@ -8,12 +8,10 @@ namespace pohy {
 		int index;
 		std::string name;
 	} ShaderInfo;
-	typedef int GLSLType;
-	typedef std::pair<string, GLSLType> Uniform;
+	typedef std::pair<string, GLenum> Uniform;
 
 	class LiveShader {
 	public:
-		LiveShader();
 		void load(string directory = ".");
 		void draw(glm::ivec2 drawResolution = { ofGetWidth(), ofGetHeight() });
 		void draw(unsigned int width, unsigned int height) {
@@ -27,6 +25,10 @@ namespace pohy {
 			shaderA.addUniformFunction(uniformName, uniformFunction);
 			shaderB.addUniformFunction(uniformName, uniformFunction);
 		};
+		void addDefineKeyword(string define) {
+			shaderA.addDefineKeyword(define);
+			shaderB.addDefineKeyword(define);
+		}
 
 		ofEvent<ShaderInfo> onChange;
 
@@ -35,18 +37,20 @@ namespace pohy {
 		}
 
 	private:
-		ofxShader* pFrontShader;
-		ofxShader* pBackShader;
 		ofxShader shaderA;
 		ofxShader shaderB;
+		ofxShader* pFrontShader{ &shaderA };
+		ofxShader* pBackShader{ &shaderB };
 
+		// TODO: Should be of type size_t
+		int currentShaderIndex{ 0 };
 		std::vector<string> availableShaders;
-		int currentShaderIndex;
 		std::vector<Uniform> uniforms;
 
 		void loadShader(size_t index);
 		void onShaderLoad(bool& e);
 		void parseUniforms();
 		void loadAvailableShaders();
+		string shaderProcessor(GLenum type, const string source);
 	};
 }

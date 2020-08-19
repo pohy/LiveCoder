@@ -1,5 +1,7 @@
 #define PI 3.14159
 
+vec2 fragCoord = gl_FragCoord.xy;
+
 uniform float iTime;
 uniform vec2 iResolution;
 
@@ -38,7 +40,7 @@ vec2 LogPolar(vec2 uv) {
 }
 
 void main() {
-    vec2 fragCoord = gl_FragCoord.xy;
+    //vec2 fragCoord = gl_FragCoord.xy;
     vec2 uv = (fragCoord.xy - iResolution * .5) / iResolution.y;
     // Flip Y coordinates, because we want zero to be in the bottom left corner of the screen
     uv.y *= -1.;
