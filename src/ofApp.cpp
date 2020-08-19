@@ -24,6 +24,7 @@ void ofApp::setup() {
 
 	senderName = config.at("/ndi"_json_pointer).value("senderName", "GLSL Live coder");
 
+	downloadShaders();
 	shader.load();
 	setupGui();
 	setupNdi();
@@ -170,6 +171,53 @@ void ofApp::setupMidi() {
 		shader.addUniformFunction(uniformName, UniformFunction([=](ofShader* _shader) {
 			_shader->setUniform1f(uniformName, uniformValues[uniformName].current);
 			}));
+	}
+}
+
+void ofApp::downloadShaders() {
+	auto remoteShadersUnfiltered = config.value("remoteShaders", std::vector<string>());
+	std::vector<string> remoteShaders(remoteShadersUnfiltered.size());
+	std::copy_if(remoteShadersUnfiltered.begin(), remoteShadersUnfiltered.end(), remoteShaders.begin(), [](string url) {
+		return url.find("https://www.shadertoy.com/view/") != string::npos;
+		});
+	for (auto remoteShader : remoteShaders) {
+		auto lastSlashIndex = remoteShader.rfind("/");
+		auto shaderId = remoteShader.substr(lastSlashIndex);
+		stringstream  shaderJsonUrl;
+		shaderJsonUrl << "https://www.shadertoy.com/api/v1/shaders/";
+		shaderJsonUrl << shaderId;
+		shaderJsonUrl << "?key=rtHKMM";
+		// TODO: How about async?
+		auto result = ofLoadURL(shaderJsonUrl.str());
+		if (result.status >= 300) {
+			ofLogError("LiveCoder") << "downloadShaders(): Shader loading failed: URL: " << shaderJsonUrl.str() << ", Error: " << result.error << ", Data:\n" << result.data.getText();
+			continue;
+		}
+		auto shaderJson = json::parse(result.data.getText());
+		try {
+			auto shaderInfoJson = shaderJson.at("/Shader/info"_json_pointer);
+			auto shaderName = shaderInfoJson.value("name", shaderId);
+			auto shaderPath = "_fromShaderToy_" + shaderName + ".frag";
+			auto shaderExists = ofFile::doesFileExist(shaderPath);
+			if (shaderExists) {
+				ofLogNotice("LiveCoder") << "downloadShaders(): Shader at path " << shaderPath << " already exists. Skipping write";
+				continue;
+			}
+			auto shaderPasses = shaderJson.at("/Shader/renderpass"_json_pointer);
+			ofBuffer shaderSource;
+			shaderSource = shaderPasses[0].value("code", "");
+			auto writeResult = ofBufferToFile(shaderPath, shaderSource, false);
+			if (!writeResult) {
+				ofLogError("LiveCoder") << "downloadShaders(): Failed to write shader source to: " << shaderPath;
+				continue;
+			}
+			ofLogNotice("LiveCoder") << "downloadShaders(): Shader written: " << shaderPath;
+		}
+		catch (json::out_of_range ex) {
+			//ofLogError("LiveCoder") << "downloadShaders(): Could not load shader info. URL: " << remoteShader;
+			ofLogError("LiveCoder") << "downloadShaders(): json out_of_range: " << ex.what() << ", URL: " << remoteShader << " Shader JSON: \n" << shaderJson.dump();
+			continue;
+		}
 	}
 }
 

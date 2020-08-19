@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxDatGui\src\core\ofxDatGuiComponent.cpp">
+      <Filter>addons\ofxDatGui\src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.cpp">
+      <Filter>addons\ofxDatGui\src\libs\ofxSmartFont</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxDatGui\src\ofxDatGui.cpp">
+      <Filter>addons\ofxDatGui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\desktop\ofxRtMidiIn.cpp">
+      <Filter>addons\ofxMidi\src\desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\desktop\ofxRtMidiOut.cpp">
+      <Filter>addons\ofxMidi\src\desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\ofxBaseMidi.cpp">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\ofxMidi.cpp">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\ofxMidiClock.cpp">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\ofxMidiIn.cpp">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\ofxMidiMessage.cpp">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\ofxMidiOut.cpp">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\src\ofxMidiTimecode.cpp">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxMidi\libs\rtmidi\RtMidi.cpp">
+      <Filter>addons\ofxMidi\libs\rtmidi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxNDI\src\ofxNDIdynloader.cpp">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxNDI\src\ofxNDIreceive.cpp">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxNDI\src\ofxNDIreceiver.cpp">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxNDI\src\ofxNDIsend.cpp">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxNDI\src\ofxNDIsender.cpp">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxNDI\src\ofxNDIutils.cpp">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxShader\src\ofxShader.cpp">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxShader\src\ofxShaderFilter.cpp">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxShader\src\ofxShaderMaterial.cpp">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxShader\src\ofxTextureCube.cpp">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxShader\src\skylight\ArHosekSkyModel.c">
+      <Filter>addons\ofxShader\src\skylight</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons">
+      <UniqueIdentifier>{71834F65-F3A9-211E-73B8-DC85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui">
+      <UniqueIdentifier>{B36B06DF-1AA4-00D4-5A1B-6893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src">
+      <UniqueIdentifier>{CAA2E9BA-611F-99B2-780A-B8BA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\components">
+      <UniqueIdentifier>{8EFE15E2-401E-A657-3818-AD66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\core">
+      <UniqueIdentifier>{6835CAB6-404A-D3AD-148B-CD60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\libs">
+      <UniqueIdentifier>{ABAEF2A2-DCDC-DB83-4614-EB2B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\libs\ofxSmartFont">
+      <UniqueIdentifier>{A694AB8C-4705-277A-3AC8-2B8E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\themes">
+      <UniqueIdentifier>{2646318C-49AB-44C5-70D8-23E6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxMidi">
+      <UniqueIdentifier>{4DF4D977-A753-531B-5057-9AC1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxMidi\src">
+      <UniqueIdentifier>{7EED8620-FDD5-520C-3F5D-2677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxMidi\src\desktop">
+      <UniqueIdentifier>{03CA45A4-AB22-A57E-895E-C6BC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxMidi\libs">
+      <UniqueIdentifier>{B8086AD6-372B-1A12-88A6-74F9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxMidi\libs\rtmidi">
+      <UniqueIdentifier>{8E6C5628-3502-6F01-4B1D-AEAE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxNDI">
+      <UniqueIdentifier>{577C5AAC-F44E-A0BE-E58F-B066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxNDI\src">
+      <UniqueIdentifier>{3BB183CD-62BF-E58A-FD5C-A603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxNDI\libs">
+      <UniqueIdentifier>{C2091C9D-63A5-7B51-5F40-CF0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxNDI\libs\NDI">
+      <UniqueIdentifier>{50DDA443-51F6-CCFC-46D7-85CE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxNDI\libs\NDI\include">
+      <UniqueIdentifier>{B9E7D45F-AC3D-9349-FCD4-7EA6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxShader">
+      <UniqueIdentifier>{A64461C2-7659-EB2F-4EE5-B50B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxShader\src">
+      <UniqueIdentifier>{775AA66F-6CC6-A8F3-80F5-4243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxShader\src\skylight">
+      <UniqueIdentifier>{2E45DE0E-21AA-1F1B-CCA0-3EF9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{08f0eeac-e701-4df1-8136-1b492b88cc13}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGui2dPad.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiButton.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiColorPicker.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiControls.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiFRM.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiGroups.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiLabel.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiMatrix.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiScrollView.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiSlider.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiTextInput.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiTextInputField.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\components\ofxDatGuiTimeGraph.h">
+      <Filter>addons\ofxDatGui\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\core\ofxDatGuiComponent.h">
+      <Filter>addons\ofxDatGui\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\core\ofxDatGuiConstants.h">
+      <Filter>addons\ofxDatGui\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\core\ofxDatGuiEvents.h">
+      <Filter>addons\ofxDatGui\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\core\ofxDatGuiIntObject.h">
+      <Filter>addons\ofxDatGui\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.h">
+      <Filter>addons\ofxDatGui\src\libs\ofxSmartFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\ofxDatGui.h">
+      <Filter>addons\ofxDatGui\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\themes\ofxDatGuiTheme.h">
+      <Filter>addons\ofxDatGui\src\themes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxDatGui\src\themes\ofxDatGuiThemes.h">
+      <Filter>addons\ofxDatGui\src\themes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\desktop\ofxRtMidiIn.h">
+      <Filter>addons\ofxMidi\src\desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\desktop\ofxRtMidiOut.h">
+      <Filter>addons\ofxMidi\src\desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxBaseMidi.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxMidi.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxMidiClock.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxMidiConstants.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxMidiIn.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxMidiMessage.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxMidiOut.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxMidiTimecode.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\src\ofxMidiTypes.h">
+      <Filter>addons\ofxMidi\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxMidi\libs\rtmidi\RtMidi.h">
+      <Filter>addons\ofxMidi\libs\rtmidi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\src\ofxNDI.h">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\src\ofxNDIdynloader.h">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\src\ofxNDIplatforms.h">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\src\ofxNDIreceive.h">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\src\ofxNDIreceiver.h">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\src\ofxNDIsend.h">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\src\ofxNDIsender.h">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\src\ofxNDIutils.h">
+      <Filter>addons\ofxNDI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.compat.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.deprecated.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.DynamicLoad.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.Find.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.FrameSync.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.Lib.cplusplus.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.Lib.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.Recv.ex.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.Recv.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.Routing.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.Send.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.structs.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxNDI\libs\NDI\include\Processing.NDI.utilities.h">
+      <Filter>addons\ofxNDI\libs\NDI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\face.h">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\ofxShader.h">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\ofxShaderFilter.h">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\ofxShaderMaterial.h">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\ofxTextureCube.h">
+      <Filter>addons\ofxShader\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\skylight\ArHosekSkyModel.h">
+      <Filter>addons\ofxShader\src\skylight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\skylight\ArHosekSkyModelData_CIEXYZ.h">
+      <Filter>addons\ofxShader\src\skylight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\skylight\ArHosekSkyModelData_RGB.h">
+      <Filter>addons\ofxShader\src\skylight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxShader\src\skylight\ArHosekSkyModelData_Spectral.h">
+      <Filter>addons\ofxShader\src\skylight</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\json.hpp">
+      <Filter>libs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderConverter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+</Project>

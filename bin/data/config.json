@@ -1,6 +1,13 @@
 {
   "fps": 60,
   "defaultShader":  "rotatingCheckers",
+  "shaders": {
+    "import": [
+      "https://www.shadertoy.com/view/ttXfWH",
+      "https://www.shadertoy.com/view/wlffRN",
+      "https://www.shadertoy.com/view/ttlBRr"
+    ],
+  },
   "window": {
     "width": 1280,
     "height": 720

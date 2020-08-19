@@ -17,7 +17,7 @@ namespace pohy {
 			if (sourceModified.find("out vec4 outputColor") == string::npos) {
 				sourceModified.insert(lastPreprocessorNewLineIndex, "\nout vec4 outputColor;\n");
 			}
-			sourceModified += "void main() { mainImage( outputColor, gl_FragCoord.xy ); }";
+			sourceModified += "void main() { mainImage( outputColor, vec2(gl_FragCoord.x, iResolution.y - gl_FragCoord.y) ); }";
 
 			return sourceModified;
 		}
@@ -28,10 +28,15 @@ namespace pohy {
 			for (size_t i = 0; i < 4; i++) {
 				stringstream channelName;
 				channelName << "iChannel" << i;
+				// TODO: Sometimes, we get "unknown uniform type sampler2D"
+				//		 `sampler2DRect` does not work with `texelFetch`
 				defaultUniforms.insert(std::make_pair(channelName.str(), "sampler2D"));
 			}
 			auto lastPreprocessorIndex = sourceModified.rfind("#define");
-			auto lastPreprocessorNewLineIndex = sourceModified.find("\n", lastPreprocessorIndex);
+			if (lastPreprocessorIndex == string::npos) {
+				lastPreprocessorIndex = 0;
+			}
+			auto lastPreprocessorNewLineIndex = lastPreprocessorIndex == 0 ? 0 : sourceModified.find("\n", lastPreprocessorIndex);
 			for (auto defaultUniform : defaultUniforms) {
 				auto uniformPos = std::strstr(source.c_str(), defaultUniform.first.c_str());
 				if (uniformPos == nullptr) {
@@ -46,7 +51,7 @@ namespace pohy {
 					continue;
 				}
 				// If the uniform is used in the source, add its declaration
-				uniformDeclaration = "\n" + uniformDeclaration + ";";
+				uniformDeclaration = "\n" + uniformDeclaration + ";\n";
 				sourceModified.insert(lastPreprocessorNewLineIndex, uniformDeclaration);
 			}
 			// TODO: We are skipping the ofxShader initialization and passing the modified source directly to ofShader

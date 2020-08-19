@@ -51,6 +51,7 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		void setupGui();
 		void setupNdi();
 		void setupMidi();
+		void downloadShaders();
 
 		void updateWindowTitle();
 		void browseShaders(ofKeyEventArgs& key);
