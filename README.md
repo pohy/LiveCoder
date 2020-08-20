@@ -5,14 +5,16 @@
 - Load custom textures
 
 ### Implemented
+- Configurable shader directory
 - Loading ShaderToy from URL
 - Import Shadertoy shaders
   - String matching trickery, we should investigate using ASTs
 ### Planned
+- Support vertex and geometry shaders
+- Generate headers from config schema
 - Detect undefined uniforms (iMidi0, etc.)
 - Fullscreen view in a second window
 - Audio input sampling -> FFT texture
-- Configurable shader directory
 - Live config reloading
 - Bind MIDI/OSC
 	- Messages are normalized into the <0, 1> range

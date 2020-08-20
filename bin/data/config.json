@@ -2,11 +2,14 @@
   "fps": 60,
   "defaultShader":  "rotatingCheckers",
   "shaders": {
+    "default":  "polkaTunnel",
+    "directory": "shaders",
     "import": [
       "https://www.shadertoy.com/view/ttXfWH",
       "https://www.shadertoy.com/view/wlffRN",
       "https://www.shadertoy.com/view/ttlBRr"
     ],
+    "importDirectory": "download"
   },
   "window": {
     "width": 1280,

@@ -21,8 +21,8 @@ namespace pohy {
 		return NULL;
 	}
 
-	void LiveShader::load(string directory) {
-		loadAvailableShaders();
+	void LiveShader::load(std::vector<string> directories) {
+		loadAvailableShaders(directories);
 		//if (loadFirstShader && availableShaders.size() > 0) {
 		//	loadShader(currentShaderIndex);
 		//}
@@ -37,6 +37,8 @@ namespace pohy {
 		};
 		pFrontShader->setShaderProcessor(shaderProcessor_);
 		pBackShader->setShaderProcessor(shaderProcessor_);
+
+
 	}
 
 	void LiveShader::draw(glm::ivec2 drawResolution) {
@@ -53,8 +55,19 @@ namespace pohy {
 		loadShader(shaderIndex);
 	}
 	void LiveShader::activate(string shaderName) {
-		auto foundShaderIt = std::find(availableShaders.begin(), availableShaders.end(), shaderName);
-		loadShader(std::distance(availableShaders.begin(), foundShaderIt));
+		if (shaderName == "") {
+			ofLogError("LiveCoder") << "activate(): Cannot load shader without a name";
+			return;
+		}
+		for (size_t i = 0; i < availableShaders.size(); i++) {
+			auto availableShader = availableShaders[i];
+			auto shaderNameIndex = availableShader.rfind(shaderName);
+			if (shaderNameIndex == string::npos) {
+				continue;
+			}
+			return loadShader(i);
+		}
+		ofLogWarning("LiveCoder") << "activate(): Shader resembling name '" << shaderName << "' not found";
 	}
 
 	void LiveShader::advance(int increment) {
@@ -76,6 +89,7 @@ namespace pohy {
 		}
 		currentShaderIndex = index;
 		if (availableShaders.size() < 1) {
+			ofLogWarning("LiveCoder") << "loadShader(): No shaders available";
 			return;
 		}
 		shaderA.load(availableShaders[currentShaderIndex]);
@@ -95,17 +109,18 @@ namespace pohy {
 		}
 	}
 
-	void LiveShader::loadAvailableShaders()
+	void LiveShader::loadAvailableShaders(std::vector<string> directories)
 	{
-		auto files = ofDirectory(".").getFiles();
-		for (size_t i = 0; i < files.size(); i++) {
-			auto fileName = files[i].getFileName();
-			auto fragIndex = fileName.find(".frag");
-			if (fragIndex == string::npos || fileName[0] == '.') {
-				continue;
+		for (auto dir : directories) {
+			auto files = ofDirectory(dir).getFiles();
+			for (auto file : files) {
+				auto fileName = file.getFileName();
+				if (file.getExtension() != "frag") {
+					continue;
+				}
+				auto shaderName = ofFilePath::join(file.getEnclosingDirectory(), file.getBaseName());//fileName.substr(0, fragIndex);
+				availableShaders.push_back(shaderName);
 			}
-			auto shaderName = fileName.substr(0, fragIndex);
-			availableShaders.push_back(shaderName);
 		}
 		stringstream availableShadersText;
 		for (auto name : availableShaders) {

@@ -24,15 +24,16 @@ void ofApp::setup() {
 
 	senderName = config.at("/ndi"_json_pointer).value("senderName", "GLSL Live coder");
 
-	downloadShaders();
-	shader.load();
+	auto configShaders = config.at("/shaders"_json_pointer);
+	auto shaderDirectory = configShaders.value("directory", ".");
+	auto importDirectory = configShaders.value("importDirectory", ".");
+	downloadShaders(importDirectory);
+	shader.load({ shaderDirectory, importDirectory });
+	shader.activate(configShaders.value("default", ""));
+
 	setupGui();
 	setupNdi();
 	setupMidi();
-
-	auto availableShaders = shader.getAvailableShaders();
-	auto foundShaderIt = std::find(availableShaders.begin(), availableShaders.end(), config.value("defaultShader", ""));
-	shader.activate(std::distance(availableShaders.begin(), foundShaderIt));
 
 	updateWindowTitle();
 
@@ -174,7 +175,7 @@ void ofApp::setupMidi() {
 	}
 }
 
-void ofApp::downloadShaders() {
+void ofApp::downloadShaders(string downloadDirectory) {
 	auto remoteShadersUnfiltered = config.value("remoteShaders", std::vector<string>());
 	std::vector<string> remoteShaders(remoteShadersUnfiltered.size());
 	std::copy_if(remoteShadersUnfiltered.begin(), remoteShadersUnfiltered.end(), remoteShaders.begin(), [](string url) {
@@ -197,7 +198,7 @@ void ofApp::downloadShaders() {
 		try {
 			auto shaderInfoJson = shaderJson.at("/Shader/info"_json_pointer);
 			auto shaderName = shaderInfoJson.value("name", shaderId);
-			auto shaderPath = "_fromShaderToy_" + shaderName + ".frag";
+			auto shaderPath = ofFilePath::join(downloadDirectory, "_fromShaderToy_" + shaderName + ".frag");
 			auto shaderExists = ofFile::doesFileExist(shaderPath);
 			if (shaderExists) {
 				ofLogNotice("LiveCoder") << "downloadShaders(): Shader at path " << shaderPath << " already exists. Skipping write";

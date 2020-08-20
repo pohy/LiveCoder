@@ -12,7 +12,7 @@ namespace pohy {
 
 	class LiveShader {
 	public:
-		void load(string directory = ".");
+		void load(std::vector<string> directories = { "." });
 		void draw(glm::ivec2 drawResolution = { ofGetWidth(), ofGetHeight() });
 		void draw(unsigned int width, unsigned int height) {
 			draw({ width, height });
@@ -50,7 +50,7 @@ namespace pohy {
 		void loadShader(size_t index);
 		void onShaderLoad(bool& e);
 		void parseUniforms();
-		void loadAvailableShaders();
+		void loadAvailableShaders(std::vector<string> directories = { "." });
 		string shaderProcessor(GLenum type, const string source);
 	};
 }
