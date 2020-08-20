@@ -41,6 +41,8 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		ofxDatGuiDropdown* pDropdownShader;
 		ofxDatGuiLabel* pLabelFps;
 		ofxDatGuiFolder* pFolderUniforms;
+		ofxDatGuiTextInput* pTextInputShaderURL;
+		ofxDatGuiButton* pButtonLoadUrl;
 
 		std::vector<ofxMidiIn> midiIns;
 		void newMidiMessage(ofxMidiMessage& msg);

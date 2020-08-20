@@ -134,6 +134,9 @@ void ofApp::onShaderChange(pohy::ShaderInfo& info)
 
 void ofApp::setupGui() {
 	pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+	auto theme = new ofxDatGuiThemeCharcoal();
+	theme->multiplyScale(1.5);
+	pGui->setTheme(theme);
 	pLabelFps = pGui->addLabel("fps");
 	pDropdownShader = pGui->addDropdown("shader", shader.getAvailableShaders());
 	pDropdownShader->select(shader.getCurrentShaderInfo().index);
@@ -142,6 +145,13 @@ void ofApp::setupGui() {
 		});
 	pFolderUniforms = pGui->addFolder("Uniforms");
 	pFolderUniforms->expand();
+	pTextInputShaderURL = pGui->addTextInput("ShaderToy URL");
+	pTextInputShaderURL->setAnchor(ofxDatGuiAnchor::TOP_LEFT);
+	pTextInputShaderURL->setWidth(400, 100);
+	pButtonLoadUrl = pGui->addButton("Load");
+	pButtonLoadUrl->onButtonEvent([=](ofxDatGuiButtonEvent& e) {
+		return;
+		});
 }
 
 void ofApp::setupNdi() {
