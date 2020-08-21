@@ -22,6 +22,8 @@ void ofApp::setup() {
 	ofSetVerticalSync(true);
 	ofSetFrameRate(config.value("fps", 60));
 
+	ofAddListener(shader.onChange, this, &ofApp::onShaderChange);
+
 	senderName = config.at("/ndi"_json_pointer).value("senderName", "GLSL Live coder");
 
 	auto configShaders = config.at("/shaders"_json_pointer);
@@ -36,8 +38,6 @@ void ofApp::setup() {
 	setupMidi();
 
 	updateWindowTitle();
-
-	ofAddListener(shader.onChange, this, &ofApp::onShaderChange);
 }
 
 //--------------------------------------------------------------
@@ -126,10 +126,35 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 	// Uniform function takes value from cc
 }
 
-void ofApp::onShaderChange(pohy::ShaderInfo& info)
-{
-	pDropdownShader->select(info.index);
+void ofApp::onShaderChange(pohy::ShaderInfo& info) {
+	if (pDropdownShader != nullptr) {
+		pDropdownShader->select(info.index);
+	}
 	updateWindowTitle();
+
+	// TODO: Update shader textures
+	auto shaderTextureInfos = config.value("textures", std::map<string, std::map<string, string>>());
+	if (!shaderTextureInfos.count(info.name)) {
+		return;
+	}
+	auto shaderUniformTextures = shaderTextureInfos[info.name];
+	for (auto uniformTexture : shaderUniformTextures) {
+		// TODO: Shader does not track reference of shaderName -> (uniform, texture)
+		//		 We should cache the loaded textures in memory, instead of loading from the file system every time
+		//		 We could pass the whole structure to the shader
+		//		 We could also keep track of the reference in ofApp
+		ofImage textureImage;
+		if (!ofFile::doesFileExist(uniformTexture.second)) {
+			ofLogError("LiveCoder") << "onShaderChange(): Texture file '" << uniformTexture.first << "' does not exist";
+			continue;
+		}
+		ofLoadImage(textureImage, uniformTexture.second);
+		// TODO: Rotate the texture only for Shadertoy imports?
+		textureImage.rotate90(2);
+		ofTexture texture = textureImage.getTextureReference();
+		texture.setTextureWrap(GL_REPEAT, GL_REPEAT);
+		shader.setUniformTexture(uniformTexture.first, texture);
+	}
 }
 
 void ofApp::setupGui() {

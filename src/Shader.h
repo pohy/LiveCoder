@@ -13,14 +13,16 @@ namespace pohy {
 	class LiveShader {
 	public:
 		void load(std::vector<string> directories = { "." });
+
 		void draw(glm::ivec2 drawResolution = { ofGetWidth(), ofGetHeight() });
 		void draw(unsigned int width, unsigned int height) {
 			draw({ width, height });
 		}
+
 		void activate(string shaderName);
 		void activate(size_t shaderIndex);
 		void advance(int increment);
-		ShaderInfo getCurrentShaderInfo();
+
 		void addUniformFunction(string uniformName, UniformFunction uniformFunction) {
 			shaderA.addUniformFunction(uniformName, uniformFunction);
 			shaderB.addUniformFunction(uniformName, uniformFunction);
@@ -30,11 +32,18 @@ namespace pohy {
 			shaderB.addDefineKeyword(define);
 		}
 
-		ofEvent<ShaderInfo> onChange;
-
+		ShaderInfo getCurrentShaderInfo();
 		std::vector<string> getAvailableShaders() {
 			return availableShaders;
 		}
+		void setUniformTexture(string uniformName, ofTexture texture) {
+			uniformTextures[uniformName] = texture;
+		}
+		bool hasUniformTexture(string uniformName) {
+			return uniformTextures.count(uniformName) > 0;
+		}
+
+		ofEvent<ShaderInfo> onChange;
 
 	private:
 		ofxShader shaderA;
@@ -46,9 +55,11 @@ namespace pohy {
 		int currentShaderIndex{ 0 };
 		std::vector<string> availableShaders;
 		std::vector<Uniform> uniforms;
+		std::map<string, ofTexture> uniformTextures;
 
 		void loadShader(size_t index);
 		void onShaderLoad(bool& e);
+		void updateUniforms(glm::vec2 drawResolution);
 		void parseUniforms();
 		void loadAvailableShaders(std::vector<string> directories = { "." });
 		string shaderProcessor(GLenum type, const string source);

@@ -37,10 +37,10 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		
 		pohy::LiveShader shader;
 
-		ofxDatGui* pGui;
-		ofxDatGuiDropdown* pDropdownShader;
-		ofxDatGuiLabel* pLabelFps;
-		ofxDatGuiFolder* pFolderUniforms;
+		ofxDatGui* pGui{ nullptr };
+		ofxDatGuiDropdown* pDropdownShader{ nullptr };
+		ofxDatGuiLabel* pLabelFps{ nullptr };
+		ofxDatGuiFolder* pFolderUniforms{ nullptr };
 
 		std::vector<ofxMidiIn> midiIns;
 		void newMidiMessage(ofxMidiMessage& msg);

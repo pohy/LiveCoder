@@ -18,6 +18,9 @@ namespace pohy {
 		else if (type == "vec4") {
 			return GL_FLOAT_VEC4;
 		}
+		else if (type == "sampler2D") {
+			return GL_SAMPLER_2D;
+		}
 		return NULL;
 	}
 
@@ -37,16 +40,11 @@ namespace pohy {
 		};
 		pFrontShader->setShaderProcessor(shaderProcessor_);
 		pBackShader->setShaderProcessor(shaderProcessor_);
-
-
 	}
 
 	void LiveShader::draw(glm::ivec2 drawResolution) {
 		pFrontShader->begin();
-		float time = ofGetElapsedTimef();
-		pFrontShader->setUniform1f("iTime", time);
-		pFrontShader->setUniform2f("iResolution", drawResolution.x, drawResolution.y);
-		pFrontShader->setUniform4f("iMouse", ofGetMouseX(), ofGetMouseY(), ofGetMousePressed(0), ofGetMousePressed(1));
+		updateUniforms(drawResolution);
 		ofDrawRectangle(0, 0, drawResolution.x, drawResolution.y);
 		pFrontShader->end();
 	}
@@ -177,6 +175,17 @@ namespace pohy {
 		//	pFolderUniforms->collapse();
 		//	pFolderUniforms->expand();
 		//}
+	}
+
+	void LiveShader::updateUniforms(glm::vec2 drawResolution) {
+		float time = ofGetElapsedTimef();
+		pFrontShader->setUniform1f("iTime", time);
+		pFrontShader->setUniform2f("iResolution", drawResolution.x, drawResolution.y);
+		pFrontShader->setUniform4f("iMouse", ofGetMouseX(), ofGetMouseY(), ofGetMousePressed(0), ofGetMousePressed(1));
+		for (auto uniformTexture : uniformTextures) {
+			int textureLocation = std::distance(uniformTextures.begin(), uniformTextures.find(uniformTexture.first));
+			pFrontShader->setUniformTexture(uniformTexture.first, uniformTexture.second, textureLocation);
+		}
 	}
 
 	void LiveShader::parseUniforms() {
