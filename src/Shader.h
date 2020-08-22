@@ -13,6 +13,7 @@ namespace pohy {
 	class LiveShader {
 	public:
 		void load(std::vector<string> directories = { "." });
+		void addTextureFromFile(string filePath, string uniformName);
 
 		void draw(glm::ivec2 drawResolution = { ofGetWidth(), ofGetHeight() });
 		void draw(unsigned int width, unsigned int height) {

@@ -45,6 +45,7 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		std::vector<ofxMidiIn> midiIns;
 		void newMidiMessage(ofxMidiMessage& msg);
 		std::map<string, InterpolationValue> uniformValues;
+		void onTextureLoad(ofxDatGuiButtonEvent e);
 
 		// TODO: Update pFolderUniforms
 		void onShaderChange(pohy::ShaderInfo& info);

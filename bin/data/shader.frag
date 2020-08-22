@@ -4,6 +4,7 @@ uniform float iTime;
 uniform vec2 iResolution;
 uniform float iMidi0;
 uniform float iMidi1;
+uniform sampler2D koruna;
 
 in vec2 texCoordVarying;
 
@@ -31,6 +32,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     float t = iTime * .1;
 
     vec3 col = vec3(0);
+    // uv *= Rot(t);
     // uv = abs(uv);
 
     // float r = .2;
@@ -52,7 +54,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
 
     p = uv - vec2(.25, -.25);
     d = Rect(p, vec2(.5));
-    col += d * texture(iChannel3, p).rgb;
+    col += d * texture(koruna, p *.5 - .5).rgb;
+
+    // col = texture(koruna, uv * .5 - .5).rgb;
 
     fragColor = vec4(col, 1.);
 }

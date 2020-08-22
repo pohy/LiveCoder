@@ -42,6 +42,19 @@ namespace pohy {
 		pBackShader->setShaderProcessor(shaderProcessor_);
 	}
 
+	void LiveShader::addTextureFromFile(string filePath, string uniformName) {
+		ofImage textureImage(filePath);
+		if (!textureImage.isAllocated()) {
+			ofLogError("Shader") << "addTextureFromFile(): Could not load texture from path: " + filePath;
+			return;
+		}
+		// TODO: Rotate the texture only for Shadertoy imports?
+		textureImage.rotate90(2);
+		auto texture = textureImage.getTexture();
+		texture.setTextureWrap(GL_REPEAT, GL_REPEAT);
+		setUniformTexture(uniformName, texture);
+	}
+
 	void LiveShader::draw(glm::ivec2 drawResolution) {
 		pFrontShader->begin();
 		updateUniforms(drawResolution);
@@ -90,6 +103,7 @@ namespace pohy {
 			ofLogWarning("LiveCoder") << "loadShader(): No shaders available";
 			return;
 		}
+		uniformTextures.clear();
 		shaderA.load(availableShaders[currentShaderIndex]);
 		shaderB.load(availableShaders[currentShaderIndex]);
 

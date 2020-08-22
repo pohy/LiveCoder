@@ -38,6 +38,9 @@
       "iChannel1": "textures/blobs.jpg",
       "iChannel2": "textures/whiteNoise64x64.png",
       "iChannel3": "textures/whiteNoise512x512.png"
+    },
+    "data\\polkatunnel": {
+      "iChannel0": "textures/london.jpg"
     }
   }
 }

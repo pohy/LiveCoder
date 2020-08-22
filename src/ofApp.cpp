@@ -138,23 +138,27 @@ void ofApp::onShaderChange(pohy::ShaderInfo& info) {
 		return;
 	}
 	auto shaderUniformTextures = shaderTextureInfos[info.name];
-	for (auto uniformTexture : shaderUniformTextures) {
+	for (const auto uniformTexture : shaderUniformTextures) {
 		// TODO: Shader does not track reference of shaderName -> (uniform, texture)
 		//		 We should cache the loaded textures in memory, instead of loading from the file system every time
 		//		 We could pass the whole structure to the shader
 		//		 We could also keep track of the reference in ofApp
-		ofImage textureImage;
 		if (!ofFile::doesFileExist(uniformTexture.second)) {
 			ofLogError("LiveCoder") << "onShaderChange(): Texture file '" << uniformTexture.first << "' does not exist";
 			continue;
 		}
-		ofLoadImage(textureImage, uniformTexture.second);
-		// TODO: Rotate the texture only for Shadertoy imports?
-		textureImage.rotate90(2);
-		ofTexture texture = textureImage.getTextureReference();
-		texture.setTextureWrap(GL_REPEAT, GL_REPEAT);
-		shader.setUniformTexture(uniformTexture.first, texture);
+		shader.addTextureFromFile(uniformTexture.second, uniformTexture.first);
 	}
+}
+
+void ofApp::onTextureLoad(ofxDatGuiButtonEvent e) {
+	auto texturePathResult = ofSystemLoadDialog();
+	if (!texturePathResult.bSuccess) {
+		ofSystemAlertDialog("Texture at path '" + texturePathResult.getPath() + "' does not exist");
+		return;
+	}
+	auto uniformName = ofSystemTextBoxDialog("Uniform name", texturePathResult.getName());
+	shader.addTextureFromFile(texturePathResult.getPath(), uniformName);
 }
 
 void ofApp::setupGui() {
@@ -167,6 +171,8 @@ void ofApp::setupGui() {
 		});
 	pFolderUniforms = pGui->addFolder("Uniforms");
 	pFolderUniforms->expand();
+
+	pGui->addButton("Load texture")->onButtonEvent(this, &ofApp::onTextureLoad);
 }
 
 void ofApp::setupNdi() {
