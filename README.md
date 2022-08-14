@@ -1,7 +1,17 @@
 # LiveCoder
+## Build
+`msbuild -m -p:"Configuration=Release;Platform=x64" .\LiveCoder.vcxproj`
 
 ## Features
+- Live reloading (won't stop when the shader has errors)
+- Use your own editor
+- Texture loading
+- NDI stream
+- MIDI input
+- JSON config
+- ShaderToy import
 ### In progress
+- Texture UI
 
 ### Implemented
 - Load custom textures
@@ -10,6 +20,7 @@
 - Import Shadertoy shaders
   - [ ] String matching trickery, we should investigate using ASTs
 ### Planned
+- Load last used shader on startup
 - Explore `ofParamter` for binding dynamic values (texture/config/uniforms)
 - Detect undefined uniforms (iMidi0, etc.)
 - Shadertoy scraping, when API is not enabled for the post

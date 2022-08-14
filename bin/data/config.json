@@ -1,46 +1,49 @@
 {
-  "fps": 60,
-  "defaultShader":  "rotatingCheckers",
-  "shaders": {
-    "default":  "polkaTunnel",
-    "directory": "shaders",
-    "import": [
-      "https://www.shadertoy.com/view/ttXfWH",
-      "https://www.shadertoy.com/view/wlffRN",
-      "https://www.shadertoy.com/view/ttlBRr"
-    ],
-    "importDirectory": "download"
-  },
-  "window": {
-    "width": 1280,
-    "height": 720
-  },
-  "render": {
-    "width": 1920,
-    "height": 1080
-  },
-  "ndi": {
-    "senderName":  "Live coder"
-  },
-  "midi": {
-	  "debug": true,
-	  "inputs": ["MIDIIN2 (LPX MIDI) 4", "MIDI Mix 2"],
-	  "bindings": {
-		  "cc": {
-			  "iMidi0": 19,
-			  "iMidi1": 23
-		  }
-	  }
-  },
-  "textures": {
-    "data\\shader": {
-      "iChannel0": "textures/london.jpg",
-      "iChannel1": "textures/blobs.jpg",
-      "iChannel2": "textures/whiteNoise64x64.png",
-      "iChannel3": "textures/whiteNoise512x512.png"
+    "fps": 60,
+    "midi": {
+        "bindings": {
+            "cc": {
+                "iMidi0": 19,
+                "iMidi1": 23
+            }
+        },
+        "debug": true,
+        "inputs": [
+            "MIDIIN2 (LPX MIDI) 4",
+            "MIDI Mix 0"
+        ]
     },
-    "data\\polkatunnel": {
-      "iChannel0": "textures/london.jpg"
+    "ndi": {
+        "senderName": "Live coder"
+    },
+    "render": {
+        "height": 1080,
+        "width": 1920
+    },
+    "shaders": {
+        "default": "shader",
+        "directory": "",
+        "import": [
+            "https://www.shadertoy.com/view/ttXfWH",
+            "https://www.shadertoy.com/view/wlffRN",
+            "https://www.shadertoy.com/view/ttlBRr"
+        ],
+        "importDirectory": "download"
+    },
+    "textures": {
+        "data\\polkatunnel": {
+            "iChannel0": "textures/london.jpg"
+        },
+        "data\\shader": {
+            "iChannel0": "textures/london.jpg",
+            "iChannel1": "textures/blobs.jpg",
+            "iChannel2": "textures/whiteNoise64x64.png",
+            "iChannel3": "textures/whiteNoise512x512.png",
+            "koruna": "C:\\David\\dev\\cpp\\of_v0.11.0_vs2017_release\\apps\\pohy\\LiveCoder\\bin\\data\\textures\\koruna.jpg"
+        }
+    },
+    "window": {
+        "height": 1080,
+        "width": 1920
     }
-  }
 }

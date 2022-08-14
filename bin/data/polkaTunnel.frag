@@ -33,9 +33,12 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     float snare = getFreq(5000.);
     
     uv *= 6. + (sin(t) * 3.);
+    vec2 id = floor(uv);
     uv = fract(abs(uv));
     uv = toLogPolar(uv);
+    vec2 idP = floor(uv);
     uv.x -= t + snare * .1;
+    uv.x += length(id * sin(t));
     uv *= 6. / PI;
     uv = fract(uv) - .5;
     
@@ -45,6 +48,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     float c = smoothstep(r * 1.01, r - delta, dist);
     vec3 color = mix(vec3(.8, .8, .5), vec3(.2, .2, .8), snare);
     col += c;//vec3(.8 + (snare * .2), .8 - (snare * .2), .5 - (snare * .2));
+    // col *= vec3(normalize(abs(idP)), .5);
+    // col *= texture(iChannel0, uv).rgb;
     //col.rg = id;
     //col += getFreq(60.);
     //col.rg += uv;
