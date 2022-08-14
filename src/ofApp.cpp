@@ -158,7 +158,15 @@ void ofApp::onTextureLoad(ofxDatGuiButtonEvent e) {
 		return;
 	}
 	auto uniformName = ofSystemTextBoxDialog("Uniform name", texturePathResult.getName());
-	shader.addTextureFromFile(texturePathResult.getPath(), uniformName);
+	// ofFilePath texturePath;
+	// texturePath.(texturePathResult.getPath());
+	ofFile textureFile(texturePathResult.getPath());
+	auto texturePath = textureFile.path();
+	shader.addTextureFromFile(texturePath, uniformName);
+	auto shaderName = shader.getCurrentShaderInfo().name;
+	auto configPath = "/textures/" + shaderName + "/" + uniformName;
+	config[json::json_pointer(configPath)] = texturePath;
+	saveConfig(config);
 }
 
 void ofApp::setupGui() {

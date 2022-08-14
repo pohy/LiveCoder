@@ -2,11 +2,12 @@
 
 #include "ofMain.h"
 #include "ofxNDI.h"
-#include "ofxShader.h"
 #include "json.hpp"
 #include "ofxDatGui.h"
 #include "ofxMidi.h"
 #include "Shader.h"
+
+#define CONFIG_PATH "config.json"
 
 using json = nlohmann::json;
 
@@ -14,6 +15,18 @@ typedef struct {
 	float current;
 	float target;
 } InterpolationValue;
+
+inline void saveConfig(json config)
+{
+	auto configString = config.dump(4);
+	ofBuffer configBuffer = ofBuffer(configString.c_str(), configString.size());
+	ofBufferToFile(CONFIG_PATH, configBuffer, false);
+}
+
+inline json loadConfig()
+{
+	return json::parse(ofBufferFromFile(CONFIG_PATH, false).getText());
+}
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
 
