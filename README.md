@@ -2,6 +2,27 @@
 ## Build
 `msbuild -m -p:"Configuration=Release;Platform=x64" .\LiveCoder.vcxproj`
 
+## TODO
+- Shader list closes after activation
+- ShaderToy format detection not working for custom shaders
+  - Should be based on detecting `mainImage`?
+- Uniforms GUI not working
+- Document configuration
+  - JSON Schema?
+- ?Drop MIDI support
+- Option to disable NDI
+- Pause time
+  - Using space
+- Shader directory reload/watch
+- Display shader errors on screen
+- Display successful reload toast
+- Display compiling notice
+- Config class
+  - So that we don't have to use string for access :)
+  - Could it be generated from JSON Schema?
+- ✔ Remember and restore last opened shader
+  - Has to have a fallback when the shader doesn't exist
+
 ## Features
 - Live reloading (won't stop when the shader has errors)
 - Use your own editor
@@ -10,6 +31,10 @@
 - MIDI input
 - JSON config
 - ShaderToy import
+## Doc
+- Shaders are stored inside `data` directory
+  - They have to have `.frag` extension
+- Use left/right arrows to navigate between shaders
 ### In progress
 - Texture UI
 

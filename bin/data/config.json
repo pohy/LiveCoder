@@ -21,14 +21,14 @@
         "width": 1920
     },
     "shaders": {
-        "default": "shader",
         "directory": "",
         "import": [
             "https://www.shadertoy.com/view/ttXfWH",
             "https://www.shadertoy.com/view/wlffRN",
             "https://www.shadertoy.com/view/ttlBRr"
         ],
-        "importDirectory": "download"
+        "importDirectory": "download",
+        "lastActive": "data\\shader"
     },
     "textures": {
         "data\\polkatunnel": {

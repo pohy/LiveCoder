@@ -56,7 +56,7 @@ namespace pohy {
 			}
 			// TODO: We are skipping the ofxShader initialization and passing the modified source directly to ofShader
 			sourceModified.insert(lastPreprocessorIndex, "\nprecision mediump float;\n");
-			sourceModified = "#version 330\n" + sourceModified;
+			//sourceModified = "#version 330\n" + sourceModified;
 			return sourceModified;
 		}
 	}

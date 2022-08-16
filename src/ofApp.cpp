@@ -31,7 +31,7 @@ void ofApp::setup() {
 	auto importDirectory = configShaders.value("importDirectory", ".");
 	downloadShaders(importDirectory);
 	shader.load({ shaderDirectory, importDirectory });
-	shader.activate(configShaders.value("default", ""));
+	shader.activate(configShaders.value("lastActive", ""));
 
 	setupGui();
 	setupNdi();
@@ -81,7 +81,6 @@ void ofApp::windowResized(int w, int h) {
 void ofApp::keyPressed(ofKeyEventArgs& key)
 {
 	browseShaders(key);
-	//selectShaderByNumber(key);
 }
 
 void ofApp::browseShaders(ofKeyEventArgs& key)
@@ -97,15 +96,6 @@ void ofApp::browseShaders(ofKeyEventArgs& key)
 		increment = 1;
 	}
 	shader.advance(increment);
-}
-
-void ofApp::selectShaderByNumber(ofKeyEventArgs& key) {
-	if (key.key < 48 || key.key > 57) {
-		return;
-	}
-	int index = 57 - key.key;
-	shader.activate(index);
-	//ofLogNotice("LiveCoder") << "key: " << key.key;
 }
 
 void ofApp::newMidiMessage(ofxMidiMessage& msg) {
@@ -131,24 +121,8 @@ void ofApp::onShaderChange(pohy::ShaderInfo& info) {
 		pDropdownShader->select(info.index);
 	}
 	updateWindowTitle();
-
-	// TODO: Update shader textures
-	auto shaderTextureInfos = config.value("textures", std::map<string, std::map<string, string>>());
-	if (!shaderTextureInfos.count(info.name)) {
-		return;
-	}
-	auto shaderUniformTextures = shaderTextureInfos[info.name];
-	for (const auto uniformTexture : shaderUniformTextures) {
-		// TODO: Shader does not track reference of shaderName -> (uniform, texture)
-		//		 We should cache the loaded textures in memory, instead of loading from the file system every time
-		//		 We could pass the whole structure to the shader
-		//		 We could also keep track of the reference in ofApp
-		if (!ofFile::doesFileExist(uniformTexture.second)) {
-			ofLogError("LiveCoder") << "onShaderChange(): Texture file '" << uniformTexture.first << "' does not exist";
-			continue;
-		}
-		shader.addTextureFromFile(uniformTexture.second, uniformTexture.first);
-	}
+	persistLastLoadedShader(info.name);
+	updateShaderTextures(info.name);
 }
 
 void ofApp::onTextureLoad(ofxDatGuiButtonEvent e) {
@@ -176,7 +150,7 @@ void ofApp::setupGui() {
 	pDropdownShader->select(shader.getCurrentShaderInfo().index);
 	pDropdownShader->onDropdownEvent([=](ofxDatGuiDropdownEvent e) {
 		shader.activate(e.child);
-		});
+	});
 	pFolderUniforms = pGui->addFolder("Uniforms");
 	pFolderUniforms->expand();
 
@@ -215,11 +189,12 @@ void ofApp::setupMidi() {
 }
 
 void ofApp::downloadShaders(string downloadDirectory) {
+	// TODO: There are not "remoteShaders" in the config, wtf? :D
 	auto remoteShadersUnfiltered = config.value("remoteShaders", std::vector<string>());
 	std::vector<string> remoteShaders(remoteShadersUnfiltered.size());
 	std::copy_if(remoteShadersUnfiltered.begin(), remoteShadersUnfiltered.end(), remoteShaders.begin(), [](string url) {
 		return url.find("https://www.shadertoy.com/view/") != string::npos;
-		});
+	});
 	for (auto remoteShader : remoteShaders) {
 		auto lastSlashIndex = remoteShader.rfind("/");
 		auto shaderId = remoteShader.substr(lastSlashIndex);
@@ -261,8 +236,34 @@ void ofApp::downloadShaders(string downloadDirectory) {
 	}
 }
 
-void ofApp::updateWindowTitle()
-{
+void ofApp::updateWindowTitle() {
 	auto shaderName = shader.getCurrentShaderInfo().name;
 	ofSetWindowTitle("Sender: " + senderName + " / Shader: " + shaderName);
+}
+
+void ofApp::persistLastLoadedShader(string name) {
+	auto lastLoadedShaderConfigPath = "/shaders/lastActive";
+	config[json::json_pointer(lastLoadedShaderConfigPath)] = name;
+	saveConfig(config);
+}
+
+void ofApp::updateShaderTextures(string shaderName) {
+	// TODO: Update shader textures
+	auto shaderTextureInfos = config.value("textures", std::map<string, std::map<string, string>>());
+	if (!shaderTextureInfos.count(shaderName)) {
+		return;
+	}
+	auto shaderUniformTextures = shaderTextureInfos[shaderName];
+	for (const auto uniformTexture : shaderUniformTextures) {
+		// TODO: Shader does not track reference of shaderName -> (uniform, texture)
+		//		 We should cache the loaded textures in memory, instead of loading from the file system every time
+		//		 We could pass the whole structure to the shader
+		//		 We could also keep track of the reference in ofApp
+		if (!ofFile::doesFileExist(uniformTexture.second)) {
+			ofLogError("LiveCoder") << "updateShaderTextures(): Texture file '" << uniformTexture.first << "' does not exist";
+			continue;
+		}
+		ofLogVerbose("LiveCoder") << "updateShaderTextures(): Loading texture; uniform: '" << uniformTexture.first << "'; filePath: '" << uniformTexture.second << "'";
+		shader.addTextureFromFile(uniformTexture.second, uniformTexture.first);
+	}
 }

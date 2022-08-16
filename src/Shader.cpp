@@ -4,7 +4,6 @@
 #include "ShaderConverter.h"
 
 namespace pohy {
-
 	static GLenum stringToType(string type) {
 		if (type == "float") {
 			return GL_FLOAT;
@@ -25,6 +24,7 @@ namespace pohy {
 	}
 
 	void LiveShader::load(std::vector<string> directories) {
+		// TODO: We should save directory paths relative to the binary
 		loadAvailableShaders(directories);
 		//if (loadFirstShader && availableShaders.size() > 0) {
 		//	loadShader(currentShaderIndex);
@@ -66,8 +66,9 @@ namespace pohy {
 		loadShader(shaderIndex);
 	}
 	void LiveShader::activate(string shaderName) {
+		// TODO: Easies solution would be to persist the currently active shader here but that leads to coupling with config :(
 		if (shaderName == "") {
-			ofLogError("LiveCoder") << "activate(): Cannot load shader without a name";
+			ofLogWarning("LiveCoder") << "activate(): Cannot load shader without a name";
 			return;
 		}
 		for (size_t i = 0; i < availableShaders.size(); i++) {

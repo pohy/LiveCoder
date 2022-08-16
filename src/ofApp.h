@@ -69,5 +69,7 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 
 		void updateWindowTitle();
 		void browseShaders(ofKeyEventArgs& key);
-		void selectShaderByNumber(ofKeyEventArgs& key);
+
+		void updateShaderTextures(string shaderName);
+		void persistLastLoadedShader(string name);
 };
