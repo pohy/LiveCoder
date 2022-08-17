@@ -9,21 +9,28 @@
 ## TODO
 - ShaderToy format detection not working for custom shaders
   - Should be based on detecting `mainImage`?
-- Document configuration
-  - JSON Schema?
-- ?Drop MIDI support
-- Option to disable NDI
 - Pause time
   - Using space
-- Shader directory reload/watch
 - Display shader errors on screen
-- Display successful reload toast
-- Display compiling notice
+- Document configuration
+  - JSON Schema?
+- Display successful reload toast/notice
+- Display compiling toast/notice
+- Option to disable NDI
+- Quit confirm dialog
+  - Only when NDI is enabled and listeners are connected?
+  - Configurable
+- Shader directory reload/watch
 - Config class
   - So that we don't have to use string for access :)
   - Could it be generated from JSON Schema?
-- FPS runs slow for some reason
+- ?Drop MIDI support
+- ✔ Option to toggle vertical sync
+  => Removed vertical sync
+- ✔ FPS runs slow for some reason
   - Even when disabling both the frame rate cap and vertical sync and NDI
+  => Was just a GUI issue
+- ✔ Disable quit using escape key
 - ✔ Uniforms GUI not working
   => Disabled for now
 - ✔ Shader list closes after activation
