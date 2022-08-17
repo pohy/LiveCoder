@@ -1,0 +1,10 @@
+{
+    "editor.formatOnSave": false,
+    "files.associations": {
+        "*.pug": "jade",
+        "*.tidal": "haskell",
+        "utility": "cpp",
+        "xstring": "cpp",
+        "vector": "cpp"
+    }
+}
