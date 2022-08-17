@@ -19,7 +19,6 @@ void ofApp::setup() {
 
 	ofEnableDepthTest();
 	ofDisableArbTex();
-	ofSetVerticalSync(true);
 	ofSetFrameRate(config.value("fps", 60));
 
 	ofAddListener(shader.onChange, this, &ofApp::onShaderChange);
@@ -63,10 +62,6 @@ void ofApp::draw() {
 	ndiSender.SendImage(ndiFbo);
 
 	ofDisableDepthTest();
-	stringstream fpsText;
-	fpsText << "FPS: ";
-	fpsText << fixed << setprecision(2) << ofGetFrameRate();
-	pLabelFps->setLabel(fpsText.str());
 }
 
 void ofApp::exit() {
@@ -142,7 +137,7 @@ void ofApp::onTextureLoad(ofxDatGuiButtonEvent e) {
 
 void ofApp::setupGui() {
 	pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
-	pLabelFps = pGui->addLabel("fps");
+	pGui->addFRM(0.2f);
 	pDropdownShader = pGui->addDropdown("shader", shader.getAvailableShaders());
 	pDropdownShader->select(shader.getCurrentShaderInfo().index);
 	pDropdownShader->onDropdownEvent([=](ofxDatGuiDropdownEvent e) {
