@@ -1,0 +1,56 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "msbuild",
+            "args": [
+                // Ask msbuild to generate full paths for file names.
+                "/property:GenerateFullPaths=true",
+                "/property:Configuration=Debug",
+                "/property:Platform=x64",
+                // "/p:\"Configuration=Debug;Platform=x64\"",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary",
+                // Use all cores
+                "/m"
+            ],
+            "group": "build",
+            "presentation": {
+                // Reveal the output only if unrecognized errors occur.
+                "reveal": "silent"
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": "$msCompile",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "cd bin; .\\LiveCoder_debug.exe",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+        },
+        {
+            "label": "build & run",
+            "type": "shell",
+            "command": "echo",
+            "args": ["done"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "build",
+                "run"
+            ]
+        }
+    ]
+}
