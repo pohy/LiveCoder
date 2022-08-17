@@ -117,9 +117,6 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 }
 
 void ofApp::onShaderChange(pohy::ShaderInfo& info) {
-	if (pDropdownShader != nullptr) {
-		pDropdownShader->select(info.index);
-	}
 	updateWindowTitle();
 	persistLastLoadedShader(info.name);
 	updateShaderTextures(info.name);
@@ -149,10 +146,14 @@ void ofApp::setupGui() {
 	pDropdownShader = pGui->addDropdown("shader", shader.getAvailableShaders());
 	pDropdownShader->select(shader.getCurrentShaderInfo().index);
 	pDropdownShader->onDropdownEvent([=](ofxDatGuiDropdownEvent e) {
+		// Keep the dropdown expanded
+		ofLogNotice("LiveCoder") << "Dropdown event: " << e.child;
+		pDropdownShader->expand();
 		shader.activate(e.child);
 	});
 	pFolderUniforms = pGui->addFolder("Uniforms");
-	pFolderUniforms->expand();
+	// Uniforms are not loaded/parsed, let's keep them disabled for now
+	pFolderUniforms->setVisible(false);
 
 	pGui->addButton("Load texture")->onButtonEvent(this, &ofApp::onTextureLoad);
 }

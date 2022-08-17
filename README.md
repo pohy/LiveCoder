@@ -1,12 +1,14 @@
 # LiveCoder
 ## Build
-`msbuild -m -p:"Configuration=Release;Platform=x64" .\LiveCoder.vcxproj`
+- CMD/PowerShell:  
+  `msbuild -m -p:"Configuration=Debug;Platform=x64" .\LiveCoder.vcxproj`
+- git-bash:  
+  `cd bin`  
+  `MSBuild.exe -m MSBuild.exe -m -p:"Configuration=Debug;Platform=x64" ../LiveCoder.vcxproj && ./LiveCoder_debug.exe`
 
 ## TODO
-- Shader list closes after activation
 - ShaderToy format detection not working for custom shaders
   - Should be based on detecting `mainImage`?
-- Uniforms GUI not working
 - Document configuration
   - JSON Schema?
 - ?Drop MIDI support
@@ -20,6 +22,11 @@
 - Config class
   - So that we don't have to use string for access :)
   - Could it be generated from JSON Schema?
+- FPS runs slow for some reason
+  - Even when disabling both the frame rate cap and vertical sync and NDI
+- ✔ Uniforms GUI not working
+  => Disabled for now
+- ✔ Shader list closes after activation
 - ✔ Remember and restore last opened shader
   - Has to have a fallback when the shader doesn't exist
 
