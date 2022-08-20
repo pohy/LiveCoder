@@ -49,11 +49,13 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 		ofxNDIsender ndiSender;
 		
 		pohy::LiveShader shader;
+		bool paused = false;
 
 		ofxDatGui* pGui{ nullptr };
 		ofxDatGuiDropdown* pDropdownShader{ nullptr };
 		ofxDatGuiLabel* pLabelFps{ nullptr };
 		ofxDatGuiFolder* pFolderUniforms{ nullptr };
+		ofxDatGuiButton* pButtonPlayPause;
 
 		std::vector<ofxMidiIn> midiIns;
 		void newMidiMessage(ofxMidiMessage& msg);
@@ -72,4 +74,6 @@ class ofApp : public ofBaseApp, public ofxMidiListener {
 
 		void updateShaderTextures(string shaderName);
 		void persistLastLoadedShader(string name);
+
+		void togglePaused();
 };

@@ -55,6 +55,10 @@ namespace pohy {
 		setUniformTexture(uniformName, texture);
 	}
 
+	void LiveShader::update() {
+		elapsedTime += ofGetLastFrameTime();
+	}
+
 	void LiveShader::draw(glm::ivec2 drawResolution) {
 		pFrontShader->begin();
 		updateUniforms(drawResolution);
@@ -193,8 +197,7 @@ namespace pohy {
 	}
 
 	void LiveShader::updateUniforms(glm::vec2 drawResolution) {
-		float time = ofGetElapsedTimef();
-		pFrontShader->setUniform1f("iTime", time);
+		pFrontShader->setUniform1f("iTime", elapsedTime);
 		pFrontShader->setUniform2f("iResolution", drawResolution.x, drawResolution.y);
 		pFrontShader->setUniform4f("iMouse", ofGetMouseX(), ofGetMouseY(), ofGetMousePressed(0), ofGetMousePressed(1));
 		for (auto uniformTexture : uniformTextures) {

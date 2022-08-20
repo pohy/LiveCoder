@@ -8,8 +8,6 @@
 
 ## TODO
 - ShaderToy import GUI
-- Pause time
-  - Using space
 - Display shader errors on screen
 - Document configuration
   - JSON Schema?
@@ -29,6 +27,8 @@
   - Fix button scaling
     - Aka. `ofxDatGuiComponent::drawLabel`
 - ?Drop MIDI support
+- ✔ Pause time
+  - Using space
 - ✔ ShaderToy format detection not working for custom shaders
   - Should be based on detecting `mainImage`?
 - ✔ Option to toggle vertical sync

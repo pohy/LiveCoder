@@ -39,8 +39,37 @@ void ofApp::setup() {
 	updateWindowTitle();
 }
 
+void ofApp::setupGui() {
+	pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+	pGui->addFRM(0.2f);
+
+	pButtonPlayPause = pGui->addButton("Pause");
+	pButtonPlayPause->onButtonEvent([=](ofxDatGuiButtonEvent e) {
+		togglePaused();
+	});
+
+	pDropdownShader = pGui->addDropdown("shader", shader.getAvailableShaders());
+	pDropdownShader->select(shader.getCurrentShaderInfo().index);
+	pDropdownShader->onDropdownEvent([=](ofxDatGuiDropdownEvent e) {
+		// Keep the dropdown expanded
+		ofLogNotice("LiveCoder") << "Dropdown event: " << e.child;
+		pDropdownShader->expand();
+		shader.activate(e.child);
+	});
+
+	pFolderUniforms = pGui->addFolder("Uniforms");
+	// Uniforms are not loaded/parsed, let's keep them disabled for now
+	pFolderUniforms->setVisible(false);
+
+	pGui->addButton("Load texture")->onButtonEvent(this, &ofApp::onTextureLoad);
+
+}
+
 //--------------------------------------------------------------
 void ofApp::update() {
+	if (!paused) {
+		shader.update();
+	}
 	for (auto entry : uniformValues) {
 		auto value = uniformValues[entry.first];
 		uniformValues[entry.first].current = lerp(value.current, value.target, 2 * ofGetLastFrameTime());
@@ -76,6 +105,10 @@ void ofApp::windowResized(int w, int h) {
 void ofApp::keyPressed(ofKeyEventArgs& key)
 {
 	browseShaders(key);
+	// Spacebar
+	if (key.key == 32) {
+		togglePaused();
+	}
 }
 
 void ofApp::browseShaders(ofKeyEventArgs& key)
@@ -133,24 +166,6 @@ void ofApp::onTextureLoad(ofxDatGuiButtonEvent e) {
 	auto configPath = "/textures/" + shaderName + "/" + uniformName;
 	config[json::json_pointer(configPath)] = texturePath;
 	saveConfig(config);
-}
-
-void ofApp::setupGui() {
-	pGui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
-	pGui->addFRM(0.2f);
-	pDropdownShader = pGui->addDropdown("shader", shader.getAvailableShaders());
-	pDropdownShader->select(shader.getCurrentShaderInfo().index);
-	pDropdownShader->onDropdownEvent([=](ofxDatGuiDropdownEvent e) {
-		// Keep the dropdown expanded
-		ofLogNotice("LiveCoder") << "Dropdown event: " << e.child;
-		pDropdownShader->expand();
-		shader.activate(e.child);
-	});
-	pFolderUniforms = pGui->addFolder("Uniforms");
-	// Uniforms are not loaded/parsed, let's keep them disabled for now
-	pFolderUniforms->setVisible(false);
-
-	pGui->addButton("Load texture")->onButtonEvent(this, &ofApp::onTextureLoad);
 }
 
 void ofApp::setupNdi() {
@@ -261,5 +276,14 @@ void ofApp::updateShaderTextures(string shaderName) {
 		}
 		ofLogVerbose("LiveCoder") << "updateShaderTextures(): Loading texture; uniform: '" << uniformTexture.first << "'; filePath: '" << uniformTexture.second << "'";
 		shader.addTextureFromFile(uniformTexture.second, uniformTexture.first);
+	}
+}
+
+void ofApp::togglePaused() {
+	paused = !paused;
+	if (paused) {
+		pButtonPlayPause->setLabel("Play");
+	} else {
+		pButtonPlayPause->setLabel("Pause");
 	}
 }

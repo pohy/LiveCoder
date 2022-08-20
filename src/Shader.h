@@ -15,6 +15,7 @@ namespace pohy {
 		void load(std::vector<string> directories = { "." });
 		void addTextureFromFile(string filePath, string uniformName);
 
+		void update();
 		void draw(glm::ivec2 drawResolution = { ofGetWidth(), ofGetHeight() });
 		void draw(unsigned int width, unsigned int height) {
 			draw({ width, height });
@@ -47,6 +48,7 @@ namespace pohy {
 		ofEvent<ShaderInfo> onChange;
 
 	private:
+	 	double elapsedTime = 0.0;
 		ofxShader shaderA;
 		ofxShader shaderB;
 		ofxShader* pFrontShader{ &shaderA };
