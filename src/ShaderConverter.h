@@ -4,21 +4,24 @@
 namespace pohy {
 	namespace shaderconverter {
 		string convertShaderToy(string shaderSource) {
-			auto hasMainImageFn = shaderSource.find("mainImage(") != string::npos;
-			if (!hasMainImageFn) {
+			auto mainFnIndex = shaderSource.find("main(");
+			if (mainFnIndex != string::npos) {
+				return shaderSource;
+			}
+			auto mainImageFnIndex = shaderSource.find("mainImage(");
+			if (mainImageFnIndex == string::npos) {
+				return shaderSource;
+			}
+			auto mainImageFnLineStartIndex = shaderSource.rfind("\n", mainImageFnIndex);
+			if (mainImageFnLineStartIndex == string::npos) {
 				return shaderSource;
 			}
 			auto sourceModified = shaderSource;
-			auto lastPreprocessorIndex = sourceModified.rfind("#define");
-			auto lastPreprocessorNewLineIndex = sourceModified.find("\n", lastPreprocessorIndex);
-			if (lastPreprocessorNewLineIndex == string::npos) {
-				return sourceModified;
-			}
 			if (sourceModified.find("out vec4 outputColor") == string::npos) {
-				sourceModified.insert(lastPreprocessorNewLineIndex, "\nout vec4 outputColor;\n");
+				// Insert the outputColor declaration before the mainImage function
+				sourceModified.insert(mainImageFnLineStartIndex, "\nout vec4 outputColor;\n");
 			}
 			sourceModified += "void main() { mainImage( outputColor, vec2(gl_FragCoord.x, iResolution.y - gl_FragCoord.y) ); }";
-
 			return sourceModified;
 		}
 

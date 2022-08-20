@@ -7,8 +7,7 @@
   `MSBuild.exe -m MSBuild.exe -m -p:"Configuration=Debug;Platform=x64" ../LiveCoder.vcxproj && ./LiveCoder_debug.exe`
 
 ## TODO
-- ShaderToy format detection not working for custom shaders
-  - Should be based on detecting `mainImage`?
+- ShaderToy import GUI
 - Pause time
   - Using space
 - Display shader errors on screen
@@ -24,7 +23,14 @@
 - Config class
   - So that we don't have to use string for access :)
   - Could it be generated from JSON Schema?
+- UI Scaling
+  - Fork ofxDatGui and modify scale multiplication
+  - Refer `ofxDatGuiTheme::init` method
+  - Fix button scaling
+    - Aka. `ofxDatGuiComponent::drawLabel`
 - ?Drop MIDI support
+- ✔ ShaderToy format detection not working for custom shaders
+  - Should be based on detecting `mainImage`?
 - ✔ Option to toggle vertical sync
   => Removed vertical sync
 - ✔ FPS runs slow for some reason
@@ -40,7 +46,7 @@
 ## Features
 - Live reloading (won't stop when the shader has errors)
 - Use your own editor
-- Texture loading
+- Texture loading (GUI/Config)
 - NDI stream
 - MIDI input
 - JSON config
